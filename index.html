@@ -116,7 +116,7 @@
       border-radius: 0px;
     }
     #navbar.scrolled {
-      max-width: 820px;
+      max-width: 860px;
       background: rgba(20,20,22,0.7);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
@@ -244,16 +244,25 @@
       font-weight: 700;
       line-height: 1.05;
       letter-spacing: -0.03em;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
       background: linear-gradient(135deg, #fff 30%, var(--accent) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
+    .hero-sub-fr {
+      font-family: var(--font-head);
+      font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+      font-weight: 300;
+      color: var(--accent);
+      opacity: 0.75;
+      letter-spacing: 0.02em;
+      margin-bottom: 1.25rem;
+    }
     .hero-sub {
-      font-size: clamp(1rem, 2vw, 1.25rem);
+      font-size: clamp(0.95rem, 2vw, 1.15rem);
       color: var(--muted);
-      max-width: 560px;
+      max-width: 600px;
       line-height: 1.7;
       margin-bottom: 2.5rem;
     }
@@ -488,6 +497,153 @@
       line-height: 1.7;
     }
 
+    /* ── VEHICLES ── */
+    #vehicles {
+      position: relative;
+      z-index: 10;
+      padding: 7rem 2rem;
+      background: var(--bg2);
+    }
+    #vehicles .inner { max-width: 1100px; margin: 0 auto; }
+    .vehicles-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 0;
+    }
+    .vehicle-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .vehicle-card:hover {
+      border-color: rgba(230,199,235,0.3);
+      transform: translateY(-4px);
+    }
+    .vehicle-img-placeholder {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: linear-gradient(135deg, rgba(230,199,235,0.08), rgba(230,199,235,0.03));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .vehicle-info {
+      padding: 1.5rem;
+    }
+    .vehicle-badge {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .vehicle-name {
+      font-family: var(--font-head);
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+    .vehicle-specs {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      margin-bottom: 1.25rem;
+    }
+    .vehicle-specs li {
+      font-size: 0.8rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .vehicle-specs li::before {
+      content: '—';
+      color: var(--accent);
+      font-family: var(--font-mono);
+    }
+    .vehicle-price {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+    }
+
+    /* ── VISION ── */
+    #vision {
+      position: relative;
+      z-index: 10;
+      padding: 7rem 2rem;
+      background: var(--bg);
+    }
+    #vision .inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .vision-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+    .vision-title {
+      font-family: var(--font-head);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+      line-height: 1.15;
+    }
+    .vision-body {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+    .vision-pillars {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .pillar {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      transition: border-color 0.3s;
+    }
+    .pillar:hover { border-color: rgba(230,199,235,0.3); }
+    .pillar-num {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      margin-bottom: 0.5rem;
+    }
+    .pillar-title {
+      font-family: var(--font-head);
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+    .pillar-desc {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
     /* ── CTA ── */
     #cta {
       position: relative;
@@ -581,11 +737,14 @@
     .footer-inner {
       max-width: 1100px;
       margin: 0 auto;
+    }
+    .footer-top {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: space-between;
       flex-wrap: wrap;
-      gap: 2rem;
+      gap: 3rem;
+      margin-bottom: 3rem;
     }
     .footer-brand {
       display: flex;
@@ -603,24 +762,44 @@
       color: var(--muted);
       margin-top: 0.25rem;
     }
+    .footer-col h4 {
+      font-family: var(--font-head);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      color: var(--accent);
+    }
     .footer-links {
-      display: flex;
-      gap: 2rem;
       list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
     }
     .footer-links a {
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       color: var(--muted);
       text-decoration: none;
       transition: color 0.2s;
     }
     .footer-links a:hover { color: var(--text); }
+    .footer-contact-item {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 0.6rem;
+      line-height: 1.5;
+    }
+    .footer-contact-item a {
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-contact-item a:hover { color: var(--text); }
     .footer-copy {
-      width: 100%;
       text-align: center;
       font-size: 0.75rem;
       color: rgba(255,255,255,0.2);
-      margin-top: 2rem;
       padding-top: 2rem;
       border-top: 1px solid var(--border);
     }
@@ -630,7 +809,9 @@
       #navbar { width: calc(100% - 2rem); }
       .nav-links { display: none; }
       .features-grid { grid-template-columns: 1fr; }
+      .vehicles-grid { grid-template-columns: 1fr; }
       .specs-grid { grid-template-columns: repeat(2,1fr); }
+      #vision .inner { grid-template-columns: 1fr; gap: 3rem; }
       #scroll-animation { height: 250vh; }
       .annotation-card { max-width: 160px; padding: 0.75rem 1rem; }
       .card-desc, .card-stat, .card-stat-label { display: none; }
@@ -638,10 +819,11 @@
       #card-1 { top: auto; bottom: 1.5vh; left: 1rem; }
       #card-2 { top: auto; bottom: 1.5vh; right: 1rem; }
       #card-3, #card-4 { display: none; }
-      .footer-inner { flex-direction: column; align-items: flex-start; }
+      .footer-top { flex-direction: column; }
     }
     @media (max-width: 480px) {
       #scroll-animation { height: 220vh; }
+      .vehicles-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -670,7 +852,8 @@
   </a>
   <ul class="nav-links">
     <li><a href="#features">Services</a></li>
-    <li><a href="#specs">About</a></li>
+    <li><a href="#vehicles">Vehicles</a></li>
+    <li><a href="#vision">About Us</a></li>
     <li><a href="mailto:info@makaship.com" class="nav-cta">Get a Quote</a></li>
   </ul>
 </nav>
@@ -680,12 +863,13 @@
   <div class="hero-grid"></div>
   <div class="hero-orb hero-orb-1"></div>
   <div class="hero-orb hero-orb-2"></div>
-  <div class="hero-badge">Premium Vehicle Logistics</div>
+  <div class="hero-badge">Transport &amp; Exportation — Canada</div>
   <h1 class="hero-title">We Move<br>Your Wheels.</h1>
-  <p class="hero-sub">International vehicle transport, pallets and personal goods from Canada to the world. Reliable. Secure. On time.</p>
+  <p class="hero-sub-fr">Transportez Vos Véhicules Partout</p>
+  <p class="hero-sub">International transport of vehicles, pallets and personal goods from Canada to the world. Reliable, secure, and on time — that's the Makaship promise.</p>
   <div class="hero-buttons">
     <a href="mailto:info@makaship.com?subject=Quote Request" class="btn-primary">Get a Quote</a>
-    <a href="#features" class="btn-secondary">Our Services</a>
+    <a href="#features" class="btn-secondary">Nos Services</a>
   </div>
   <div class="hero-scroll-hint">
     <span>Scroll to explore</span>
@@ -701,22 +885,22 @@
     <div class="annotation-card" id="card-1" data-show="0.1" data-hide="0.35">
       <div class="card-num">01 — TRANSPORT</div>
       <div class="card-title">International Shipping</div>
-      <div class="card-desc">Vehicles, pallets & personal goods shipped from Canada to the world.</div>
+      <div class="card-desc">Vehicles, pallets &amp; personal goods shipped from Canada to the world.</div>
     </div>
     <div class="annotation-card" id="card-2" data-show="0.3" data-hide="0.55">
       <div class="card-num">02 — TRACKING</div>
-      <div class="card-title">Real-Time Tracking</div>
-      <div class="card-desc">Follow your shipment live at every stage of the journey.</div>
+      <div class="card-title">Suivi en Temps Réel</div>
+      <div class="card-desc">Follow your shipment live with real-time photos and status updates.</div>
     </div>
     <div class="annotation-card" id="card-3" data-show="0.55" data-hide="0.78">
-      <div class="card-num">03 — SECURITY</div>
+      <div class="card-num">03 — SÉCURITÉ</div>
       <div class="card-title">Photo Documentation</div>
-      <div class="card-desc">Photos taken at loading — your cargo is protected from day one.</div>
+      <div class="card-desc">Photos at loading — your cargo is protected and documented from day one.</div>
     </div>
     <div class="annotation-card" id="card-4" data-show="0.78" data-hide="1.0">
-      <div class="card-num">04 — DELIVERY</div>
+      <div class="card-num">04 — LIVRAISON</div>
       <div class="card-title">On-Time Delivery</div>
-      <div class="card-desc">Punctual delivery guaranteed. Your schedule is our commitment.</div>
+      <div class="card-desc">Livraison ponctuelle garantie. Your schedule is our commitment.</div>
     </div>
   </div>
 </section>
@@ -724,54 +908,136 @@
 <!-- Specs -->
 <section id="specs">
   <div class="section-eyebrow">By the Numbers</div>
-  <h2 class="section-title">Built for Scale</h2>
+  <h2 class="section-title">Solutions fiables à grande échelle</h2>
   <div class="specs-grid">
     <div class="spec-item">
-      <div class="spec-number" data-target="5" data-suffix="+">0</div>
-      <div class="spec-label">Transport Modes</div>
+      <div class="spec-number" data-target="4" data-suffix="">0</div>
+      <div class="spec-label">Transport Modes<br><span style="opacity:0.5;font-size:0.7rem">Maritime · Air · Road · Rail</span></div>
     </div>
     <div class="spec-item">
       <div class="spec-number" data-target="100" data-suffix="%">0</div>
-      <div class="spec-label">Photo Documentation</div>
+      <div class="spec-label">Photo Documentation<br><span style="opacity:0.5;font-size:0.7rem">At every loading</span></div>
     </div>
     <div class="spec-item">
       <div class="spec-number" data-target="24" data-suffix="/7">0</div>
-      <div class="spec-label">Customer Support</div>
+      <div class="spec-label">Customer Support<br><span style="opacity:0.5;font-size:0.7rem">Service client dédié</span></div>
     </div>
     <div class="spec-item">
-      <div class="spec-number" data-target="10" data-suffix="+">0</div>
-      <div class="spec-label">Years of Experience</div>
+      <div class="spec-number" data-target="2" data-suffix="">0</div>
+      <div class="spec-label">Phones Available<br><span style="opacity:0.5;font-size:0.7rem">514 &amp; 263 numbers</span></div>
     </div>
   </div>
 </section>
 
-<!-- Features -->
+<!-- Features / Services -->
 <section id="features">
   <div class="inner">
     <div style="text-align:center; margin-bottom: 4rem;">
-      <div class="section-eyebrow">What We Do</div>
+      <div class="section-eyebrow">Nos Services</div>
       <h2 class="section-title">Premium Logistics Services</h2>
     </div>
     <div class="features-grid">
       <div class="feature-card">
         <div class="feature-icon">🚢</div>
-        <div class="feature-title">Shipping Consultation</div>
-        <div class="feature-desc">Expert guidance to find the best shipping solution for your needs — whether you're a small business or a large enterprise, we tailor our approach to your logistics requirements.</div>
+        <div class="feature-title">Consultation D'expédition</div>
+        <div class="feature-desc">Expert guidance to find the best shipping solution for your needs. Whether you're a small or large business, we tailor our approach to your specific logistics requirements — contact us to get started.</div>
       </div>
       <div class="feature-card">
         <div class="feature-icon">🌍</div>
-        <div class="feature-title">International Export</div>
-        <div class="feature-desc">Seamless export of vehicles and goods from Canada to destinations worldwide. Maritime, air, road, and rail — we handle every mode of transport with precision.</div>
+        <div class="feature-title">Exportation International</div>
+        <div class="feature-desc">Seamless international export of vehicles, pallets and personal goods from Canada to destinations worldwide. Maritime, air, road and rail — we handle every mode with precision and reliability.</div>
       </div>
       <div class="feature-card">
         <div class="feature-icon">🚗</div>
-        <div class="feature-title">Purchase & Export on Demand</div>
-        <div class="feature-desc">We source and export vehicles on your behalf. Tell us what you need, and our experienced team handles everything from acquisition to delivery at your door.</div>
+        <div class="feature-title">Achat &amp; Exportation Sur Demande</div>
+        <div class="feature-desc">We source and export vehicles on your behalf. Tell us what you need and our experienced team handles everything — from acquisition to delivery at your door, anywhere in the world.</div>
       </div>
       <div class="feature-card">
         <div class="feature-icon">📍</div>
-        <div class="feature-title">Live Vehicle Tracking</div>
-        <div class="feature-desc">Our powerful tracking system lets you monitor the status of your shipment in real time. Travel with complete peace of mind knowing exactly where your cargo is.</div>
+        <div class="feature-title">Suivi des Véhicules</div>
+        <div class="feature-desc">Our powerful tracking system lets you monitor your shipment status in real time. Travel with complete peace of mind — follow your cargo at every stage of the journey, with photo updates at loading.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Vehicles for Sale -->
+<section id="vehicles">
+  <div class="inner">
+    <div style="text-align:center; margin-bottom: 4rem;">
+      <div class="section-eyebrow">Véhicules à Vendre</div>
+      <h2 class="section-title">Explore Our Collection</h2>
+      <p style="font-size:0.95rem;color:var(--muted);max-width:520px;margin:0 auto;line-height:1.7;">Découvrez une sélection exclusive de véhicules neufs et d'occasion — alliant élégance, performance et excellence. Interested in a model? Contact us for more information.</p>
+    </div>
+    <div class="vehicles-grid">
+      <div class="vehicle-card">
+        <div class="vehicle-img-placeholder">🚙</div>
+        <div class="vehicle-info">
+          <div class="vehicle-badge">Available Now</div>
+          <div class="vehicle-name">2016 Kia Sorento</div>
+          <ul class="vehicle-specs">
+            <li>Automatique</li>
+            <li>4 Cylindres</li>
+            <li>Démarreur à bouton</li>
+            <li>Caméra de recul</li>
+          </ul>
+          <div class="vehicle-price">Prix: Sur demande</div>
+          <a href="mailto:info@makaship.com?subject=2016 Kia Sorento Inquiry" class="btn-primary" style="font-size:0.8rem;padding:0.6rem 1.5rem;display:inline-block;">Contactez-nous</a>
+        </div>
+      </div>
+      <div class="vehicle-card" style="opacity:0.5;pointer-events:none;">
+        <div class="vehicle-img-placeholder" style="font-size:1.5rem;color:var(--muted);flex-direction:column;gap:0.5rem;">
+          <span>🚗</span>
+          <span style="font-family:var(--font-mono);font-size:0.65rem;letter-spacing:0.1em;color:var(--muted);">COMING SOON</span>
+        </div>
+        <div class="vehicle-info">
+          <div class="vehicle-badge">Bientôt disponible</div>
+          <div class="vehicle-name">More Vehicles</div>
+          <ul class="vehicle-specs">
+            <li>Contact us for full inventory</li>
+          </ul>
+        </div>
+      </div>
+      <div class="vehicle-card" style="opacity:0.5;pointer-events:none;">
+        <div class="vehicle-img-placeholder" style="font-size:1.5rem;color:var(--muted);flex-direction:column;gap:0.5rem;">
+          <span>🚐</span>
+          <span style="font-family:var(--font-mono);font-size:0.65rem;letter-spacing:0.1em;color:var(--muted);">COMING SOON</span>
+        </div>
+        <div class="vehicle-info">
+          <div class="vehicle-badge">Bientôt disponible</div>
+          <div class="vehicle-name">More Vehicles</div>
+          <ul class="vehicle-specs">
+            <li>Contact us for full inventory</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Vision / Who We Are -->
+<section id="vision">
+  <div class="inner">
+    <div>
+      <div class="vision-label">Notre Vision — Qui Nous Sommes</div>
+      <h2 class="vision-title">Built on Trust,<br>Driven by Expertise.</h2>
+      <p class="vision-body">Transport international de véhicules et palettes au Canada — Makaship offre des solutions logistiques fiables pour le transport sécurisé de vos marchandises.<br><br>Real-time tracking, photos at loading, and punctual delivery guarantee the satisfaction of our clients. Trust our expertise for all your transport and logistics needs across Canada and beyond.</p>
+    </div>
+    <div class="vision-pillars">
+      <div class="pillar">
+        <div class="pillar-num">03 — ÉQUIPE</div>
+        <div class="pillar-title">Équipe Expérimentée</div>
+        <div class="pillar-desc">Our team of professionals guarantees vehicle availability and service excellence. With many years of experience in transport, we are committed to delivering premium services tailored to your needs.</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">02 — SERVICE</div>
+        <div class="pillar-title">Service Client Dédié</div>
+        <div class="pillar-desc">Notre équipe d'assistance clientèle dédiée vous accompagne à chaque étape — offering exceptional service and responding quickly to all your questions and requirements.</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">01 — SUIVI</div>
+        <div class="pillar-title">Suivi des Véhicules</div>
+        <div class="pillar-desc">Our high-performance vehicle tracking system lets you follow the status of your shipment in real time. Track your delivery and travel with complete peace of mind.</div>
       </div>
     </div>
   </div>
@@ -780,9 +1046,9 @@
 <!-- CTA -->
 <section id="cta">
   <div class="cta-orb"></div>
-  <div class="section-eyebrow" style="position:relative">Ready to Ship?</div>
+  <div class="section-eyebrow" style="position:relative">Prêt à Expédier?</div>
   <h2 class="cta-title" style="position:relative">Move Your Vehicle<br>Anywhere in the World.</h2>
-  <p class="cta-sub" style="position:relative">Contact our team today and get a custom quote for your shipment. Fast, secure, and reliable — that's the Makaship promise.</p>
+  <p class="cta-sub" style="position:relative">Contactez notre équipe aujourd'hui pour obtenir un devis personnalisé. Fast, secure, and reliable — that's the Makaship promise.</p>
   <div style="position:relative; display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
     <a href="mailto:info@makaship.com?subject=Quote Request" class="btn-primary">Get a Quote</a>
     <a href="tel:+15145021163" class="btn-secondary">+1 514 502 1163</a>
@@ -793,25 +1059,25 @@
 <section id="testimonials">
   <div class="inner">
     <div style="text-align:center; margin-bottom:3rem;">
-      <div class="section-eyebrow">Client Reviews</div>
+      <div class="section-eyebrow">Ce que nos clients en disent</div>
       <h2 class="section-title">What Our Clients Say</h2>
     </div>
     <div class="testimonials-track" id="testimonials-track">
       <div class="testimonial-card">
         <div class="t-stars">★★★★★</div>
-        <div class="t-quote">"Fast and efficient service. My vehicle arrived on time and in perfect condition. Makaship handled everything professionally from start to finish."</div>
+        <div class="t-quote">"Service rapide et efficace. My vehicle arrived on time and in perfect condition. Makaship handled everything professionally from start to finish."</div>
         <div class="t-author">Samuel Jackson</div>
-        <div class="t-role">Satisfied Client</div>
+        <div class="t-role">Client Satisfait</div>
       </div>
       <div class="testimonial-card">
         <div class="t-stars">★★★★★</div>
-        <div class="t-quote">"I was kept informed at every step of the journey. The real-time tracking and photo updates gave me complete peace of mind. Highly recommend."</div>
+        <div class="t-quote">"I was kept informed at every step of the journey. The real-time tracking and photo updates gave me complete peace of mind. Je recommande vivement."</div>
         <div class="t-author">Marie Tremblay</div>
         <div class="t-role">Returning Customer</div>
       </div>
       <div class="testimonial-card">
         <div class="t-stars">★★★★★</div>
-        <div class="t-quote">"Exceptional team with deep expertise in international logistics. They made a complex cross-border shipment feel effortless."</div>
+        <div class="t-quote">"Exceptional team with deep expertise in international logistics. They made a complex cross-border shipment feel effortless. Excellence en transport et logistique."</div>
         <div class="t-author">Amadou Diallo</div>
         <div class="t-role">Business Owner</div>
       </div>
@@ -822,21 +1088,42 @@
 <!-- Footer -->
 <footer id="footer">
   <div class="footer-inner">
-    <div>
-      <div class="footer-brand">
-        <img src="logo.png" alt="Makaship" />
-        <span>Makaship</span>
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">
+          <img src="logo.png" alt="Makaship" />
+          <span>Makaship</span>
+        </div>
+        <div class="footer-tagline">Solutions de logistique et transport maritime</div>
       </div>
-      <div class="footer-tagline">Excellence in Transport & Logistics</div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul class="footer-links">
+          <li><a href="#features">Consultation D'expédition</a></li>
+          <li><a href="#features">Exportation International</a></li>
+          <li><a href="#features">Achat &amp; Exportation</a></li>
+          <li><a href="#vehicles">Véhicules à vendre</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Transport</h4>
+        <ul class="footer-links">
+          <li><a href="#features">Transport maritime</a></li>
+          <li><a href="#features">Fret aérien</a></li>
+          <li><a href="#features">Transport terrestre</a></li>
+          <li><a href="#features">Transport ferroviaire</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <div class="footer-contact-item"><a href="tel:+15145021163">+1 514 502 1163</a></div>
+        <div class="footer-contact-item"><a href="tel:+12633781163">+1 263 378 1163</a></div>
+        <div class="footer-contact-item"><a href="mailto:info@makaship.com">info@makaship.com</a></div>
+        <div class="footer-contact-item">295 Boulevard Albert-Einstein,<br>Suite 1, Châteauguay, QC<br>J6K 0A3, Canada</div>
+      </div>
     </div>
-    <ul class="footer-links">
-      <li><a href="#features">Services</a></li>
-      <li><a href="tel:+15145021163">+1 514 502 1163</a></li>
-      <li><a href="mailto:info@makaship.com">info@makaship.com</a></li>
-      <li><a href="https://www.makaship.com" target="_blank">makaship.com</a></li>
-    </ul>
     <div class="footer-copy">
-      © 2026 Makaship. 295 Boulevard Albert-Einstein, Châteauguay, QC, Canada J6K 0A3
+      © 2026 Makaship. 295 Boulevard Albert-Einstein, Châteauguay, QC, Canada J6K 0A3 &nbsp;·&nbsp; <a href="https://www.makaship.com" target="_blank" style="color:inherit;text-decoration:none;">www.makaship.com</a>
     </div>
   </div>
 </footer>
@@ -893,11 +1180,11 @@
 const TOTAL_FRAMES = 91;
 const frames = [];
 let loadedCount = 0;
-let targetFrame = 0;    // where scroll says we should be (float)
-let displayFrame = 0;   // smoothly lerped toward targetFrame
+let targetFrame = 0;
+let displayFrame = 0;
 let drawnFrame = -1;
 let dpr = window.devicePixelRatio || 1;
-const LERP = 0.14;      // lower = smoother/lazier, higher = snappier
+const LERP = 0.14;
 
 const canvas = document.getElementById('main-canvas');
 const ctx = canvas.getContext('2d');
@@ -906,18 +1193,16 @@ const loader = document.getElementById('loader');
 
 function resizeCanvas() {
   dpr = window.devicePixelRatio || 1;
-  // Reset canvas dimensions — this also resets ctx transform
   canvas.width = window.innerWidth * dpr;
   canvas.height = window.innerHeight * dpr;
   canvas.style.width = window.innerWidth + 'px';
   canvas.style.height = window.innerHeight + 'px';
-  drawnFrame = -1; // force redraw after resize
+  drawnFrame = -1;
 }
 
 function drawFrame(idx) {
   const img = frames[idx];
   if (!img || !img.complete) return;
-  // Draw in physical pixels (no ctx.scale — we handle DPR manually)
   const W = canvas.width, H = canvas.height;
   const iw = img.naturalWidth, ih = img.naturalHeight;
   ctx.clearRect(0, 0, W, H);
@@ -953,11 +1238,8 @@ for (let i = 1; i <= TOTAL_FRAMES; i++) {
 window.addEventListener('resize', resizeCanvas);
 
 // ─── CONTINUOUS RAF RENDER LOOP ───────────────────────────────────────────────
-// Lerps displayFrame toward targetFrame each tick for buttery smoothness
 function renderLoop() {
-  // Exponential lerp — feels natural, slows down as it approaches target
   displayFrame += (targetFrame - displayFrame) * LERP;
-
   const frameIdx = Math.min(TOTAL_FRAMES - 1, Math.max(0, Math.round(displayFrame)));
   if (frameIdx !== drawnFrame) {
     drawFrame(frameIdx);
@@ -977,15 +1259,12 @@ function getScrollProgress() {
   return Math.max(0, Math.min(1, (window.scrollY - sectionTop) / sectionH));
 }
 
-// Snap zones — snap on scroll-stop only (no overflow:hidden fighting)
 const SNAP_ZONES = [0.1, 0.3, 0.55, 0.78];
 const SNAP_RADIUS = 0.028;
 let snapTimeout = null;
 let lastScrollY = window.scrollY;
-let scrollDir = 1;
 
 function checkSnap(progress) {
-  // Only snap when scroll has stopped (debounced)
   clearTimeout(snapTimeout);
   snapTimeout = setTimeout(() => {
     for (const zone of SNAP_ZONES) {
@@ -996,11 +1275,10 @@ function checkSnap(progress) {
         break;
       }
     }
-  }, 80); // fire 80ms after scrolling stops
+  }, 80);
 }
 
 function onScroll() {
-  scrollDir = window.scrollY > lastScrollY ? 1 : -1;
   lastScrollY = window.scrollY;
 
   // Scroll progress bar
@@ -1017,10 +1295,8 @@ function onScroll() {
   const progress = getScrollProgress();
   checkSnap(progress);
 
-  // Update target frame as a float — RAF loop lerps and rounds for drawing
   targetFrame = Math.min(TOTAL_FRAMES - 1, progress * (TOTAL_FRAMES - 1));
 
-  // Annotation cards
   cards.forEach(card => {
     const show = parseFloat(card.dataset.show);
     const hide = parseFloat(card.dataset.hide);

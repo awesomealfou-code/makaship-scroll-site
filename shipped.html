@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shipped — Makaship</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Archivo:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --accent: #3B9EFF;
+      --accent-dim: rgba(59,158,255,0.12);
+      --accent-glow: rgba(59,158,255,0.4);
+      --red: #E63329; --green: #2DB04B; --gold: #F5A623;
+      --gold-glow: rgba(245,166,35,0.35);
+      --bg: #1a1a1e; --bg2: #141416;
+      --surface: rgba(255,255,255,0.04);
+      --border: rgba(255,255,255,0.08);
+      --text: #f0edf1; --muted: rgba(240,237,241,0.5);
+      --font-head: 'Space Grotesk', sans-serif;
+      --font-body: 'Archivo', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); overflow-x: hidden; }
+    ::selection { background: var(--accent); color: #1a1a1e; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg2); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+
+    /* ── NAVBAR ── */
+    #navbar {
+      position: fixed; top: 1.5rem; left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 4rem); max-width: 1200px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 2rem; z-index: 500;
+      transition: all 0.5s cubic-bezier(0.4,0,0.2,1);
+    }
+    #navbar.scrolled {
+      max-width: 900px;
+      background: rgba(20,20,22,0.75);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 0.75rem 1.75rem;
+    }
+    .nav-brand { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+    .nav-brand img { height: 36px; width: auto; object-fit: contain; }
+    .nav-brand span { font-family: var(--font-head); font-size: 1.1rem; font-weight: 600; color: var(--text); }
+    .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+    .nav-links a { font-family: var(--font-body); font-size: 0.875rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a.active-page { color: var(--accent); }
+    .nav-cta {
+      background: var(--accent); color: #1a1a1e !important;
+      padding: 0.5rem 1.25rem; border-radius: 100px;
+      font-weight: 600 !important; font-size: 0.8rem !important;
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+    @media (max-width: 768px) { #navbar { width: calc(100% - 2rem); } .nav-links { display: none; } }
+
+    /* ── HERO ── */
+    .shipped-hero {
+      padding: 10rem 2rem 5rem;
+      text-align: center; position: relative; overflow: hidden;
+      background: var(--bg2);
+    }
+    .hero-glow {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      width: 700px; height: 400px;
+      background: radial-gradient(ellipse, rgba(59,158,255,0.08) 0%, transparent 68%);
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      font-family: var(--font-mono); font-size: 0.7rem;
+      letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 1.25rem;
+      position: relative; z-index: 2;
+    }
+    .hero-title {
+      font-family: var(--font-head); font-size: clamp(3rem, 8vw, 7rem);
+      font-weight: 700; letter-spacing: -0.04em; line-height: 1.0;
+      color: var(--text); margin-bottom: 1.25rem;
+      position: relative; z-index: 2;
+    }
+    .hero-title span { color: var(--accent); }
+    .hero-sub {
+      font-size: 1rem; color: var(--muted); max-width: 500px;
+      margin: 0 auto 3rem; line-height: 1.65;
+      position: relative; z-index: 2;
+    }
+    /* Stats row */
+    .hero-stats {
+      display: inline-flex; gap: 3rem; padding: 1.25rem 2.5rem;
+      border: 1px solid var(--border); border-radius: 16px;
+      background: rgba(255,255,255,0.03); backdrop-filter: blur(12px);
+      position: relative; z-index: 2; flex-wrap: wrap; justify-content: center;
+    }
+    .stat-num { font-family: var(--font-head); font-size: 1.6rem; font-weight: 700; line-height: 1; }
+    .stat-lbl { font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; margin-top: 4px; }
+
+    /* ── FILTER BAR ── */
+    .filter-bar {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(26,26,30,0.92); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;
+    }
+    .filter-label { font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.2em; color: var(--muted); margin-right: 0.5rem; }
+    .filter-btn {
+      font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.12em;
+      padding: 0.4rem 1rem; border: 1px solid var(--border); border-radius: 100px;
+      color: var(--muted); background: transparent; cursor: pointer; transition: all 0.2s;
+    }
+    .filter-btn:hover, .filter-btn.active { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+
+    /* ── GALLERY ── */
+    .gallery-wrap { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem 6rem; }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+
+    /* Individual item — all same size */
+    .gallery-item {
+      position: relative; border-radius: 16px; overflow: hidden;
+      border: 1px solid var(--border); cursor: pointer;
+      background: var(--surface);
+      aspect-ratio: 16/9;
+      transition: border-color 0.25s, transform 0.3s;
+    }
+    .gallery-item:hover { border-color: rgba(59,158,255,0.35); transform: translateY(-4px); }
+
+    .gallery-img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      filter: brightness(0.82);
+      transition: filter 0.3s, transform 0.4s;
+    }
+    .gallery-item:hover .gallery-img { filter: brightness(1); transform: scale(1.03); }
+
+    /* Overlay info */
+    .gallery-overlay {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(20,20,22,0.92));
+      padding: 2.5rem 1.25rem 1.25rem;
+      transform: translateY(8px); opacity: 0;
+      transition: all 0.3s;
+    }
+    .gallery-item:hover .gallery-overlay { transform: translateY(0); opacity: 1; }
+    .gallery-tag {
+      font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.15em;
+      color: var(--accent); text-transform: uppercase; margin-bottom: 0.4rem;
+    }
+    .gallery-caption { font-family: var(--font-head); font-size: 0.95rem; font-weight: 600; }
+    .gallery-meta { font-size: 0.75rem; color: var(--muted); margin-top: 0.25rem; }
+
+    /* Empty / placeholder slot */
+    .gallery-placeholder {
+      border-radius: 16px; border: 2px dashed var(--border);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      min-height: 260px; gap: 0.75rem;
+      cursor: pointer; transition: border-color 0.2s, background 0.2s;
+    }
+    .gallery-placeholder:hover { border-color: var(--accent); background: var(--accent-dim); }
+    .gallery-placeholder .plus { font-size: 2rem; color: var(--border); transition: color 0.2s; }
+    .gallery-placeholder:hover .plus { color: var(--accent); }
+    .gallery-placeholder p { font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.15em; color: var(--muted); text-transform: uppercase; }
+
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      position: fixed; inset: 0; z-index: 900;
+      background: rgba(14,14,16,0.95); backdrop-filter: blur(20px);
+      display: none; align-items: center; justify-content: center;
+      padding: 2rem;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox-inner { max-width: 900px; width: 100%; position: relative; }
+    .lightbox-img { width: 100%; max-height: 80vh; object-fit: contain; border-radius: 12px; }
+    .lightbox-close {
+      position: absolute; top: -2.5rem; right: 0;
+      background: transparent; border: 1px solid var(--border);
+      color: var(--muted); font-size: 1.25rem; cursor: pointer;
+      width: 36px; height: 36px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .lightbox-close:hover { border-color: var(--accent); color: var(--accent); }
+    .lightbox-caption { margin-top: 1rem; text-align: center; }
+    .lightbox-caption .tag { font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.2em; color: var(--accent); margin-bottom: 0.35rem; }
+    .lightbox-caption .title { font-family: var(--font-head); font-size: 1.1rem; font-weight: 600; }
+    .lightbox-caption .meta { font-size: 0.8rem; color: var(--muted); margin-top: 0.25rem; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 3px solid var(--red);
+      box-shadow: 0 -4px 24px rgba(230,51,41,0.2);
+      padding: 2rem;
+      text-align: center;
+    }
+    .footer-copy { font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.15em; color: var(--muted); }
+    .footer-copy a { color: var(--muted); text-decoration: none; }
+    .footer-copy a:hover { color: var(--accent); }
+
+    @media (max-width: 900px) {
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .gallery-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav id="navbar">
+  <a class="nav-brand" href="index.html">
+    <img src="logo.png" alt="Makaship" />
+    <span>Makaship</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#features">Services</a></li>
+    <li><a href="index.html#vehicles">Vehicles</a></li>
+    <li><a href="shipped.html" class="active-page">Shipped</a></li>
+    <li><a href="about.html">About Us</a></li>
+    <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<div class="shipped-hero">
+  <div class="hero-glow"></div>
+  <p class="hero-eyebrow">From Canada to the World</p>
+  <h1 class="hero-title">Already <span>Shipped.</span></h1>
+  <p class="hero-sub">Every vehicle, every destination — documented. A growing record of successful deliveries by the Makaship team.</p>
+  <div class="hero-stats">
+    <div><div class="stat-num" style="color:var(--accent)">500+</div><div class="stat-lbl">Vehicles Shipped</div></div>
+    <div><div class="stat-num" style="color:var(--green)">50+</div><div class="stat-lbl">Destinations</div></div>
+    <div><div class="stat-num" style="color:var(--gold)">100%</div><div class="stat-lbl">Photo Documented</div></div>
+  </div>
+</div>
+
+<!-- Filter bar -->
+<div class="filter-bar">
+  <span class="filter-label">Filter:</span>
+  <button class="filter-btn active" onclick="filterGallery('all', this)">All</button>
+  <button class="filter-btn" onclick="filterGallery('suv', this)">SUVs</button>
+  <button class="filter-btn" onclick="filterGallery('sedan', this)">Sedans</button>
+  <button class="filter-btn" onclick="filterGallery('truck', this)">Trucks</button>
+  <button class="filter-btn" onclick="filterGallery('cargo', this)">Cargo</button>
+</div>
+
+<!-- Gallery -->
+<div class="gallery-wrap">
+  <div class="gallery-grid" id="galleryGrid">
+
+    <!-- Item 1 -->
+    <div class="gallery-item" data-cat="suv" onclick="openLight(this)">
+      <img class="gallery-img" src="cars-shipped-1.png" alt="Véhicule Expédié" data-title="Véhicule Expédié" data-meta="Expédié par Makaship" data-tag="Shipped" />
+      <div class="gallery-overlay">
+        <div class="gallery-tag">Shipped</div>
+        <div class="gallery-caption">Véhicule Expédié</div>
+        <div class="gallery-meta">Expédié par Makaship</div>
+      </div>
+    </div>
+
+    <!-- Item 2 -->
+    <div class="gallery-item" data-cat="suv" onclick="openLight(this)">
+      <img class="gallery-img" src="cars-shipped-2.png" alt="Véhicule Expédié" data-title="Véhicule Expédié" data-meta="Expédié par Makaship" data-tag="Shipped" />
+      <div class="gallery-overlay">
+        <div class="gallery-tag">Shipped</div>
+        <div class="gallery-caption">Véhicule Expédié</div>
+        <div class="gallery-meta">Expédié par Makaship</div>
+      </div>
+    </div>
+
+    <!-- Item 3 -->
+    <div class="gallery-item" data-cat="suv" onclick="openLight(this)">
+      <img class="gallery-img" src="cars-shipped-3.png" alt="Véhicule Expédié" data-title="Véhicule Expédié" data-meta="Expédié par Makaship" data-tag="Shipped" />
+      <div class="gallery-overlay">
+        <div class="gallery-tag">Shipped</div>
+        <div class="gallery-caption">Véhicule Expédié</div>
+        <div class="gallery-meta">Expédié par Makaship</div>
+      </div>
+    </div>
+
+    <!-- Item 4 -->
+    <div class="gallery-item" data-cat="suv" onclick="openLight(this)">
+      <img class="gallery-img" src="cars-shipped-4.png" alt="Véhicule Expédié" data-title="Véhicule Expédié" data-meta="Expédié par Makaship" data-tag="Shipped" />
+      <div class="gallery-overlay">
+        <div class="gallery-tag">Shipped</div>
+        <div class="gallery-caption">Véhicule Expédié</div>
+        <div class="gallery-meta">Expédié par Makaship</div>
+      </div>
+    </div>
+
+    <!-- Item 5 -->
+    <div class="gallery-item" data-cat="suv" onclick="openLight(this)">
+      <img class="gallery-img" src="cars-shipped-5.png" alt="Véhicule Expédié" data-title="Véhicule Expédié" data-meta="Expédié par Makaship" data-tag="Shipped" />
+      <div class="gallery-overlay">
+        <div class="gallery-tag">Shipped</div>
+        <div class="gallery-caption">Véhicule Expédié</div>
+        <div class="gallery-meta">Expédié par Makaship</div>
+      </div>
+    </div>
+
+    <!-- Item 6 -->
+    <div class="gallery-item" data-cat="suv" onclick="openLight(this)">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800&q=80&auto=format&fit=crop" alt="Hyundai Tucson" data-title="Hyundai Tucson" data-meta="Montréal → Cotonou · Maritime" data-tag="SUV" />
+      <div class="gallery-overlay">
+        <div class="gallery-tag">SUV</div>
+        <div class="gallery-caption">Hyundai Tucson</div>
+        <div class="gallery-meta">Montréal → Cotonou · Maritime</div>
+      </div>
+    </div>
+
+    <!-- Item 7 -->
+    <div class="gallery-item" data-cat="sedan" onclick="openLight(this)">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=700&q=80&auto=format&fit=crop" alt="Honda Civic" data-title="Honda Civic" data-meta="Montréal → Casablanca · Air" data-tag="Sedan" />
+      <div class="gallery-overlay">
+        <div class="gallery-tag">Sedan</div>
+        <div class="gallery-caption">Honda Civic</div>
+        <div class="gallery-meta">Montréal → Casablanca · Air</div>
+      </div>
+    </div>
+
+    <!-- Item 8 -->
+    <div class="gallery-item" data-cat="truck" onclick="openLight(this)">
+      <img class="gallery-img" src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=700&q=80&auto=format&fit=crop" alt="Chevrolet Silverado" data-title="Chevrolet Silverado" data-meta="Montréal → Accra · Maritime" data-tag="Truck" />
+      <div class="gallery-overlay">
+        <div class="gallery-tag">Truck</div>
+        <div class="gallery-caption">Chevrolet Silverado</div>
+        <div class="gallery-meta">Montréal → Accra · Maritime</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="closeLight(event)">
+  <div class="lightbox-inner">
+    <button class="lightbox-close" onclick="closeLightBtn()">✕</button>
+    <img class="lightbox-img" id="lightboxImg" src="" alt="" />
+    <div class="lightbox-caption">
+      <div class="tag" id="lightboxTag"></div>
+      <div class="title" id="lightboxTitle"></div>
+      <div class="meta" id="lightboxMeta"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <p class="footer-copy">© 2025 Makaship. All rights reserved. · <a href="index.html">Back to Home</a></p>
+</footer>
+
+<script>
+  /* ── Navbar scroll ── */
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  /* ── Filter ── */
+  function filterGallery(cat, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.gallery-item').forEach(item => {
+      if (cat === 'all' || item.dataset.cat === cat) {
+        item.style.display = '';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  }
+
+  /* ── Lightbox ── */
+  function openLight(item) {
+    const img = item.querySelector('.gallery-img');
+    document.getElementById('lightboxImg').src = img.src;
+    document.getElementById('lightboxTag').textContent = img.dataset.tag || '';
+    document.getElementById('lightboxTitle').textContent = img.dataset.title || '';
+    document.getElementById('lightboxMeta').textContent = img.dataset.meta || '';
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLight(e) {
+    if (e.target === document.getElementById('lightbox')) closeLightBtn();
+  }
+  function closeLightBtn() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightBtn(); });
+</script>
+</body>
+</html>

@@ -11,9 +11,9 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --accent: #E6C7EB;
-      --accent-dim: rgba(230, 199, 235, 0.15);
-      --accent-glow: rgba(230, 199, 235, 0.35);
+      --accent: #3B9EFF;
+      --accent-dim: rgba(59,158,255,0.12);
+      --accent-glow: rgba(59,158,255,0.4);
       --bg: #1a1a1e;
       --bg2: #141416;
       --surface: rgba(255,255,255,0.04);
@@ -23,6 +23,13 @@
       --font-head: 'Space Grotesk', sans-serif;
       --font-body: 'Archivo', sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
+      /* Logo palette accents */
+      --red: #E63329;
+      --red-glow: rgba(230,51,41,0.35);
+      --green: #2DB04B;
+      --green-glow: rgba(45,176,75,0.35);
+      --gold: #F5A623;
+      --gold-glow: rgba(245,166,35,0.35);
     }
 
     html { scroll-behavior: auto; }
@@ -39,7 +46,7 @@
 
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: var(--bg2); }
-    ::-webkit-scrollbar-thumb { background: linear-gradient(var(--accent), #c49fcb); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb { background: linear-gradient(var(--accent), #2178cc); border-radius: 3px; }
     ::-webkit-scrollbar-thumb:hover { box-shadow: 0 0 8px var(--accent-glow); }
 
     /* ── STARSCAPE ── */
@@ -57,7 +64,7 @@
       top: 0; left: 0;
       width: 0%;
       height: 3px;
-      background: linear-gradient(90deg, var(--accent), #c49fcb, var(--accent));
+      background: linear-gradient(90deg, var(--accent), #2178cc, var(--accent));
       z-index: 1000;
       transition: width 0.1s linear;
     }
@@ -94,7 +101,7 @@
     #loader-bar {
       height: 100%;
       width: 0%;
-      background: linear-gradient(90deg, var(--accent), #c49fcb);
+      background: linear-gradient(90deg, var(--accent), #2178cc);
       border-radius: 2px;
       transition: width 0.15s ease;
     }
@@ -180,98 +187,87 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 8rem 2rem 4rem;
+      padding: 8rem 2rem 6rem;
       z-index: 10;
       overflow: hidden;
+      background: var(--bg2);
     }
-    .hero-grid {
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(230,199,235,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(230,199,235,0.03) 1px, transparent 1px);
-      background-size: 60px 60px;
-      pointer-events: none;
+    .hero-map-bg {
+      position: absolute; inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?w=1600&q=80&auto=format&fit=crop');
+      background-size: cover; background-position: center;
+      opacity: 0.18; pointer-events: none; z-index: 0;
     }
-    .hero-orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(80px);
-      pointer-events: none;
+    .hero-glow {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 700px; height: 500px;
+      background: radial-gradient(ellipse at center, rgba(230,199,235,0.09) 0%, transparent 68%);
+      pointer-events: none; z-index: 1;
     }
-    .hero-orb-1 {
-      width: 500px; height: 500px;
-      background: radial-gradient(circle, rgba(230,199,235,0.12), transparent 70%);
-      top: -100px; left: -150px;
-      animation: orbFloat1 8s ease-in-out infinite;
+    .hero-routes {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      pointer-events: none; z-index: 2;
     }
-    .hero-orb-2 {
-      width: 400px; height: 400px;
-      background: radial-gradient(circle, rgba(196,159,203,0.1), transparent 70%);
-      bottom: -80px; right: -100px;
-      animation: orbFloat2 10s ease-in-out infinite;
+    @keyframes routeTravel {
+      0%   { stroke-dashoffset: 800; opacity: 0; }
+      8%   { opacity: 1; }
+      88%  { opacity: 1; }
+      100% { stroke-dashoffset: 0; opacity: 0; }
     }
-    @keyframes orbFloat1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(30px,20px)} }
-    @keyframes orbFloat2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-20px,30px)} }
+    .route-path { stroke-dasharray: 800; fill: none; }
+    .rp1 { animation: routeTravel 6s ease-in-out infinite; }
+    .rp2 { animation: routeTravel 7s ease-in-out 1.5s infinite; }
+    .rp3 { animation: routeTravel 8s ease-in-out 3s infinite; }
+    @keyframes dotPulse { 0%,100%{opacity:0.9} 50%{opacity:0.3} }
+    .route-dot { animation: dotPulse 3s ease-in-out infinite; }
 
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: var(--accent-dim);
-      border: 1px solid rgba(230,199,235,0.2);
-      border-radius: 100px;
-      padding: 0.35rem 1rem;
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      color: var(--accent);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      margin-bottom: 1.5rem;
+    .hero-eyebrow {
+      font-family: var(--font-mono); font-size: 0.7rem;
+      letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 1.5rem;
+      position: relative; z-index: 10;
     }
-    .hero-badge::before {
-      content: '';
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--accent);
-      animation: pulse 2s ease infinite;
-    }
-    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
-
     .hero-title {
       font-family: var(--font-head);
       font-size: clamp(3rem, 8vw, 7rem);
-      font-weight: 700;
-      line-height: 1.05;
-      letter-spacing: -0.03em;
-      margin-bottom: 1rem;
-      background: linear-gradient(135deg, #fff 30%, var(--accent) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .hero-sub-fr {
-      font-family: var(--font-head);
-      font-size: clamp(1.1rem, 2.5vw, 1.6rem);
-      font-weight: 300;
-      color: var(--accent);
-      opacity: 0.75;
-      letter-spacing: 0.02em;
-      margin-bottom: 1.25rem;
+      font-weight: 700; line-height: 1.0;
+      letter-spacing: -0.03em; margin-bottom: 1.25rem;
+      color: var(--text); position: relative; z-index: 10;
     }
     .hero-sub {
-      font-size: clamp(0.95rem, 2vw, 1.15rem);
-      color: var(--muted);
-      max-width: 600px;
-      line-height: 1.7;
-      margin-bottom: 2.5rem;
+      font-size: clamp(0.95rem, 2vw, 1.1rem);
+      color: var(--muted); max-width: 560px;
+      line-height: 1.7; margin-bottom: 2.5rem;
+      position: relative; z-index: 10;
     }
     .hero-buttons {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      justify-content: center;
+      display: flex; gap: 1rem;
+      flex-wrap: wrap; justify-content: center;
+      position: relative; z-index: 10;
     }
+    .hero-stats {
+      display: flex; justify-content: center; gap: 3rem;
+      padding: 1.25rem 2.5rem; margin-top: 3.5rem;
+      border: 1px solid var(--border); border-radius: 16px;
+      background: rgba(255,255,255,0.03);
+      backdrop-filter: blur(12px);
+      position: relative; z-index: 10;
+      flex-wrap: wrap;
+    }
+    .hero-stat-num {
+      font-family: var(--font-head); font-size: 1.75rem;
+      font-weight: 700; color: var(--accent); line-height: 1;
+    }
+    .hero-stat-label {
+      font-family: var(--font-mono); font-size: 0.6rem;
+      letter-spacing: 0.2em; color: var(--muted);
+      text-transform: uppercase; margin-top: 5px;
+    }
+    .hero-sub-fr { display: none; }
+    .hero-badge { display: none; }
+    .hero-orb, .hero-grid, .hero-bg-img { display: none; }
     .btn-primary {
       background: var(--accent);
       color: #1a1a1e;
@@ -345,7 +341,7 @@
     /* ── ANNOTATION CARDS ── */
     .annotation-card {
       position: absolute;
-      background: rgba(20,20,22,0.75);
+      background: rgba(20,20,22,0.82);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border: 1px solid var(--border);
@@ -449,7 +445,59 @@
       line-height: 1.4;
     }
 
-    /* ── FEATURES ── */
+    /* ── SOCIAL TICKER ── */
+    .social-ticker {
+      position: relative; z-index: 10;
+      width: 100%; overflow: hidden;
+      background: rgba(255,255,255,0.03);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 0;
+      height: 44px; display: flex; align-items: center;
+    }
+    .ticker-track {
+      display: flex; align-items: center;
+      gap: 0;
+      white-space: nowrap;
+      animation: ticker-scroll 28s linear infinite;
+      will-change: transform;
+    }
+    .ticker-track:hover { animation-play-state: paused; }
+    @keyframes ticker-scroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .ticker-item {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 0 48px;
+      font-family: var(--font-mono); font-size: 0.72rem;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--accent);
+      text-shadow: 0 0 12px var(--accent-glow);
+      text-decoration: none;
+      transition: color 0.2s, text-shadow 0.2s;
+    }
+    .ticker-item:hover {
+      color: #fff;
+      text-shadow: 0 0 20px var(--accent-glow);
+    }
+    .ticker-item svg {
+      flex-shrink: 0;
+      stroke: var(--accent);
+      filter: drop-shadow(0 0 4px var(--accent-glow));
+      transition: filter 0.2s, stroke 0.2s;
+    }
+    .ticker-item:hover svg {
+      stroke: #fff;
+      filter: drop-shadow(0 0 8px var(--accent-glow));
+    }
+    .ticker-sep {
+      display: inline-block; width: 4px; height: 4px;
+      border-radius: 50%; background: var(--border);
+      margin: 0 8px; vertical-align: middle;
+    }
+
+    /* ── FEATURES / SERVICES ── */
     #features {
       position: relative;
       z-index: 10;
@@ -457,44 +505,97 @@
       background: var(--bg);
     }
     #features .inner { max-width: 1100px; margin: 0 auto; }
-    .features-grid {
+
+    /* Header */
+    .features-head { margin-bottom: 4rem; }
+
+    /* Two-column layout */
+    .features-twocol {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.5rem;
+      grid-template-columns: 360px 1fr;
+      gap: 5rem;
+      align-items: start;
     }
-    .feature-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 2rem;
-      backdrop-filter: blur(20px);
-      transition: border-color 0.3s, transform 0.3s;
+    .features-list-col { position: sticky; top: 8rem; }
+
+    /* Service list items */
+    .svc-list { border-top: 1px solid var(--border); }
+    .svc-item {
+      display: flex; gap: 1.5rem; align-items: flex-start;
+      padding: 1.75rem 1rem; border-bottom: 1px solid var(--border);
+      cursor: pointer; transition: all 0.2s; border-radius: 0;
     }
-    .feature-card:hover {
-      border-color: rgba(230,199,235,0.3);
-      transform: translateY(-4px);
+    .svc-item:hover .svc-item-title { color: var(--accent); }
+    .svc-item.active {
+      background: rgba(230,199,235,0.04);
+      border-color: transparent;
+      border-radius: 10px;
+      margin: 0.25rem 0;
     }
-    .feature-icon {
-      width: 44px; height: 44px;
-      border-radius: 12px;
-      background: var(--accent-dim);
-      border: 1px solid rgba(230,199,235,0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 1.25rem;
-      font-size: 1.25rem;
+    .svc-item.active .svc-item-title { color: var(--accent); }
+    .svc-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--border); margin-top: 0.5rem;
+      flex-shrink: 0; transition: background 0.2s, box-shadow 0.2s;
     }
-    .feature-title {
-      font-family: var(--font-head);
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
+    .svc-item.active .svc-dot, .svc-item:hover .svc-dot {
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent-glow);
     }
-    .feature-desc {
-      font-size: 0.875rem;
-      color: var(--muted);
-      line-height: 1.7;
+    .svc-item-title {
+      font-family: var(--font-head); font-size: 1rem;
+      font-weight: 600; margin-bottom: 0.3rem;
+      transition: color 0.2s;
+    }
+    .svc-item-short { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
+
+    /* Preview panel */
+    .svc-preview-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px; overflow: hidden;
+      transition: border-color 0.3s;
+    }
+    .svc-preview-card:hover { border-color: rgba(230,199,235,0.2); }
+    .svc-preview-img {
+      width: 100%; aspect-ratio: 16/9;
+      object-fit: cover; display: block;
+      border-bottom: 1px solid var(--border);
+      opacity: 0.75; transition: opacity 0.2s ease;
+    }
+    .svc-preview-body { padding: 2.25rem; }
+    .svc-preview-num {
+      font-family: var(--font-mono); font-size: 0.62rem;
+      letter-spacing: 0.2em; color: var(--muted);
+      margin-bottom: 0.75rem; text-transform: uppercase;
+    }
+    .svc-preview-title {
+      font-family: var(--font-head); font-size: 1.5rem;
+      font-weight: 700; letter-spacing: -0.5px;
+      margin-bottom: 1rem;
+    }
+    .svc-preview-desc {
+      font-size: 0.92rem; color: var(--muted);
+      line-height: 1.75; margin-bottom: 1.75rem;
+    }
+    .svc-preview-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.75rem; }
+    .svc-tag {
+      font-family: var(--font-mono); font-size: 0.58rem;
+      letter-spacing: 0.12em; color: var(--muted);
+      border: 1px solid var(--border); border-radius: 100px;
+      padding: 0.3rem 0.75rem;
+    }
+    .svc-cta {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: var(--font-mono); font-size: 0.65rem;
+      letter-spacing: 0.15em; color: var(--accent);
+      text-decoration: none; text-transform: uppercase;
+      transition: opacity 0.2s;
+    }
+    .svc-cta:hover { opacity: 0.7; }
+
+    @media (max-width: 900px) {
+      .features-twocol { grid-template-columns: 1fr; gap: 3rem; }
+      .features-list-col { position: static; }
     }
 
     /* ── VEHICLES ── */
@@ -519,19 +620,127 @@
       transition: border-color 0.3s, transform 0.3s;
     }
     .vehicle-card:hover {
-      border-color: rgba(230,199,235,0.3);
+      border-color: rgba(59,158,255,0.3);
       transform: translateY(-4px);
     }
     .vehicle-img-placeholder {
       width: 100%;
       aspect-ratio: 16/9;
-      background: linear-gradient(135deg, rgba(230,199,235,0.08), rgba(230,199,235,0.03));
+      background: linear-gradient(135deg, rgba(59,158,255,0.08), rgba(59,158,255,0.03));
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 3rem;
       border-bottom: 1px solid var(--border);
     }
+
+    /* ── VEHICLE IMAGE GALLERY ── */
+    .vehicle-gallery {
+      position: relative; width: 100%;
+      aspect-ratio: 16/9; overflow: hidden;
+      border-bottom: 1px solid var(--border);
+      cursor: zoom-in;
+    }
+    .vehicle-gallery-track {
+      display: flex; height: 100%;
+      transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+    }
+    .vehicle-gallery-track img {
+      min-width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      filter: brightness(0.9);
+      transition: filter 0.3s;
+    }
+    .vehicle-gallery:hover .vehicle-gallery-track img { filter: brightness(1); }
+    .vg-btn {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: rgba(20,20,22,0.7); border: 1px solid var(--border);
+      color: var(--text); width: 32px; height: 32px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 0.75rem; z-index: 5;
+      transition: background 0.2s, border-color 0.2s;
+      opacity: 0; pointer-events: none;
+    }
+    .vehicle-gallery:hover .vg-btn { opacity: 1; pointer-events: all; }
+    .vg-btn:hover { background: var(--accent); border-color: var(--accent); color: #1a1a1e; }
+    .vg-prev { left: 0.5rem; }
+    .vg-next { right: 0.5rem; }
+    .vg-dots {
+      position: absolute; bottom: 0.6rem; left: 50%; transform: translateX(-50%);
+      display: flex; gap: 5px; z-index: 5;
+    }
+    .vg-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: rgba(255,255,255,0.35); transition: background 0.2s;
+    }
+    .vg-dot.active { background: var(--accent); }
+    .vg-expand {
+      position: absolute; top: 0.6rem; right: 0.6rem; z-index: 5;
+      background: rgba(20,20,22,0.7); border: 1px solid var(--border);
+      color: var(--muted); width: 28px; height: 28px; border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 0.7rem;
+      opacity: 0; transition: opacity 0.2s, background 0.2s;
+    }
+    .vehicle-gallery:hover .vg-expand { opacity: 1; }
+    .vg-expand:hover { background: var(--accent); color: #1a1a1e; border-color: var(--accent); }
+    .vg-count {
+      position: absolute; top: 0.6rem; left: 0.6rem; z-index: 5;
+      background: rgba(20,20,22,0.7); border: 1px solid var(--border);
+      border-radius: 6px; padding: 0.2rem 0.5rem;
+      font-family: var(--font-mono); font-size: 0.55rem;
+      letter-spacing: 0.1em; color: var(--muted);
+    }
+
+    /* ── VEHICLE LIGHTBOX ── */
+    #vLightbox {
+      position: fixed; inset: 0; z-index: 9000;
+      background: rgba(10,10,12,0.97); backdrop-filter: blur(24px);
+      display: none; align-items: center; justify-content: center;
+      padding: 2rem;
+    }
+    #vLightbox.open { display: flex; }
+    .vl-inner { max-width: 960px; width: 100%; position: relative; }
+    .vl-img-wrap {
+      position: relative; width: 100%;
+      max-height: 78vh; display: flex; align-items: center; justify-content: center;
+    }
+    .vl-img {
+      max-width: 100%; max-height: 78vh;
+      object-fit: contain; border-radius: 10px;
+      display: block;
+    }
+    .vl-close {
+      position: absolute; top: -2.5rem; right: 0;
+      background: transparent; border: 1px solid var(--border);
+      color: var(--muted); width: 36px; height: 36px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 1.1rem; transition: all 0.2s;
+    }
+    .vl-close:hover { border-color: var(--accent); color: var(--accent); }
+    .vl-nav {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: rgba(20,20,22,0.8); border: 1px solid var(--border);
+      color: var(--text); width: 44px; height: 44px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 1rem; transition: all 0.2s; z-index: 2;
+    }
+    .vl-nav:hover { background: var(--accent); border-color: var(--accent); color: #1a1a1e; }
+    .vl-prev { left: -3.5rem; }
+    .vl-next { right: -3.5rem; }
+    .vl-footer { margin-top: 1rem; text-align: center; }
+    .vl-title { font-family: var(--font-head); font-size: 1.1rem; font-weight: 600; }
+    .vl-counter { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.2em; color: var(--muted); margin-top: 0.35rem; }
+    .vl-thumbs {
+      display: flex; gap: 0.5rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap;
+    }
+    .vl-thumb {
+      width: 56px; height: 42px; border-radius: 6px; overflow: hidden;
+      border: 2px solid transparent; cursor: pointer; transition: border-color 0.2s;
+      flex-shrink: 0;
+    }
+    .vl-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .vl-thumb.active { border-color: var(--accent); }
     .vehicle-info {
       padding: 1.5rem;
     }
@@ -683,53 +892,65 @@
 
     /* ── TESTIMONIALS ── */
     #testimonials {
-      position: relative;
-      z-index: 10;
-      padding: 7rem 2rem;
-      background: var(--bg);
+      position: relative; z-index: 10;
+      padding: 7rem 2rem; background: var(--bg);
     }
     #testimonials .inner { max-width: 1100px; margin: 0 auto; }
-    .testimonials-track {
-      display: flex;
-      gap: 1.5rem;
-      overflow-x: auto;
-      padding-bottom: 1rem;
-      scroll-snap-type: x mandatory;
-      cursor: grab;
-      -webkit-overflow-scrolling: touch;
+    .t-slide {
+      display: grid; grid-template-columns: 380px 1fr;
+      border-radius: 24px; overflow: hidden;
+      border: 1px solid var(--border); min-height: 540px;
     }
-    .testimonials-track::-webkit-scrollbar { display: none; }
-    .testimonials-track:active { cursor: grabbing; }
-    .testimonial-card {
-      min-width: 340px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 2rem;
-      scroll-snap-align: start;
-      flex-shrink: 0;
+    .t-photo { position: relative; }
+    .t-photo img {
+      width: 100%; height: 100%; object-fit: cover;
+      display: block; filter: brightness(0.8);
+    }
+    .t-content {
+      background: var(--bg2); padding: 3.5rem;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .t-quote-mark {
+      font-family: var(--font-head); font-size: 5rem;
+      line-height: 0.5; color: var(--accent); opacity: 0.25;
+      margin-bottom: 1.5rem;
     }
     .t-quote {
-      font-size: 1rem;
-      line-height: 1.7;
-      margin-bottom: 1.5rem;
-      color: var(--text);
+      font-size: 1.1rem; line-height: 1.8;
+      color: var(--text); font-style: italic;
+      margin-bottom: 2rem; max-width: 480px;
     }
-    .t-author {
-      font-family: var(--font-head);
-      font-size: 0.875rem;
-      font-weight: 600;
+    .t-author-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
+    .t-avatar { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border); }
+    .t-author { font-family: var(--font-head); font-size: 1rem; font-weight: 700; }
+    .t-role { font-size: 0.78rem; color: var(--muted); }
+    .t-stars { color: var(--gold); font-size: 0.9rem; margin-bottom: 2rem; text-shadow: 0 0 8px var(--gold-glow); }
+    .t-controls { display: flex; align-items: center; gap: 1rem; margin-top: auto; }
+    .t-dots { display: flex; gap: 0.5rem; }
+    .t-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--border); cursor: pointer; transition: all 0.2s;
     }
-    .t-role {
-      font-size: 0.75rem;
-      color: var(--muted);
+    .t-dot.active { background: var(--accent); box-shadow: 0 0 6px var(--accent-glow); width: 24px; border-radius: 4px; }
+    .t-nav-btn {
+      width: 40px; height: 40px; border-radius: 50%;
+      border: 1px solid var(--border); background: transparent;
+      color: var(--muted); cursor: pointer; font-size: 1rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s; line-height: 1;
     }
-    .t-stars { color: var(--accent); font-size: 0.9rem; margin-bottom: 1rem; }
+    .t-nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+    @media (max-width: 900px) {
+      .t-slide { grid-template-columns: 1fr; }
+      .t-photo { min-height: 320px; }
+    }
 
     /* ── FOOTER ── */
     #footer {
       position: relative;
       z-index: 10;
+      border-top: 3px solid var(--red) !important;
+      box-shadow: 0 -4px 24px var(--red-glow);
       padding: 4rem 2rem;
       background: var(--bg2);
       border-top: 1px solid var(--border);
@@ -853,24 +1074,58 @@
   <ul class="nav-links">
     <li><a href="#features">Services</a></li>
     <li><a href="#vehicles">Vehicles</a></li>
-    <li><a href="#vision">About Us</a></li>
-    <li><a href="mailto:info@makaship.com" class="nav-cta">Get a Quote</a></li>
+    <li><a href="shipped.html">Shipped</a></li>
+    <li><a href="about.html">About Us</a></li>
+    <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
   </ul>
 </nav>
 
 <!-- Hero -->
 <section id="hero">
-  <div class="hero-grid"></div>
-  <div class="hero-orb hero-orb-1"></div>
-  <div class="hero-orb hero-orb-2"></div>
-  <div class="hero-badge">Transport &amp; Exportation — Canada</div>
-  <h1 class="hero-title">We Move<br>Your Wheels.</h1>
-  <p class="hero-sub-fr">Transportez Vos Véhicules Partout</p>
-  <p class="hero-sub">International transport of vehicles, pallets and personal goods from Canada to the world. Reliable, secure, and on time — that's the Makaship promise.</p>
+  <!-- Backgrounds -->
+  <div class="hero-map-bg"></div>
+  <div class="hero-glow"></div>
+
+  <!-- Animated SVG routes -->
+  <svg class="hero-routes" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <!-- Montréal → Europe (blue) -->
+    <path class="route-path rp1" d="M320 420 Q580 180 900 340" stroke="rgba(59,158,255,0.5)" stroke-width="1.5"/>
+    <!-- Montréal → West Africa (green) -->
+    <path class="route-path rp2" d="M320 420 Q500 650 780 600" stroke="rgba(45,176,75,0.45)" stroke-width="1"/>
+    <!-- Europe → Middle East (orange) -->
+    <path class="route-path rp3" d="M900 340 Q1100 280 1260 400" stroke="rgba(245,166,35,0.4)" stroke-width="1"/>
+    <!-- City dots -->
+    <circle class="route-dot" cx="320" cy="420" r="5" fill="#3B9EFF" opacity="0.9"/>
+    <circle class="route-dot" cx="900" cy="340" r="4" fill="#2DB04B" opacity="0.7" style="animation-delay:1s"/>
+    <circle class="route-dot" cx="1260" cy="400" r="3" fill="#F5A623" opacity="0.65" style="animation-delay:2s"/>
+    <circle class="route-dot" cx="780" cy="600" r="3" fill="#E63329" opacity="0.6" style="animation-delay:1.5s"/>
+  </svg>
+
+  <!-- Content -->
+  <p class="hero-eyebrow">International Logistics — Montréal</p>
+  <h1 class="hero-title">Logistics<br>Without Limits.</h1>
+  <p class="hero-sub">Ship vehicles, pallets, and cargo from Canada to the world. Maritime, air, and road — one team, every route.</p>
   <div class="hero-buttons">
-    <a href="mailto:info@makaship.com?subject=Quote Request" class="btn-primary">Get a Quote</a>
-    <a href="#features" class="btn-secondary">Nos Services</a>
+    <a href="contact.html" class="btn-primary">Get a Quote →</a>
+    <a href="#features" class="btn-secondary">Our Services</a>
   </div>
+
+  <!-- Stats bar -->
+  <div class="hero-stats">
+    <div>
+      <div class="hero-stat-num" style="color:var(--accent)">50+</div>
+      <div class="hero-stat-label">Destinations</div>
+    </div>
+    <div>
+      <div class="hero-stat-num" style="color:var(--green)">500+</div>
+      <div class="hero-stat-label">Vehicles Shipped</div>
+    </div>
+    <div>
+      <div class="hero-stat-num" style="color:var(--gold)">24/7</div>
+      <div class="hero-stat-label">Live Tracking</div>
+    </div>
+  </div>
+
   <div class="hero-scroll-hint">
     <span>Scroll to explore</span>
     <div class="scroll-arrow"></div>
@@ -882,23 +1137,23 @@
   <div id="canvas-wrap">
     <canvas id="main-canvas"></canvas>
     <!-- Annotation Cards -->
-    <div class="annotation-card" id="card-1" data-show="0.1" data-hide="0.35">
-      <div class="card-num">01 — TRANSPORT</div>
+    <div class="annotation-card" id="card-1" data-show="0.1" data-hide="0.35" style="border-color:rgba(59,158,255,0.3);">
+      <div class="card-num" style="color:#3B9EFF">01 — TRANSPORT</div>
       <div class="card-title">International Shipping</div>
       <div class="card-desc">Vehicles, pallets &amp; personal goods shipped from Canada to the world.</div>
     </div>
-    <div class="annotation-card" id="card-2" data-show="0.3" data-hide="0.55">
-      <div class="card-num">02 — TRACKING</div>
+    <div class="annotation-card" id="card-2" data-show="0.3" data-hide="0.55" style="border-color:rgba(45,176,75,0.3);">
+      <div class="card-num" style="color:#2DB04B">02 — TRACKING</div>
       <div class="card-title">Suivi en Temps Réel</div>
       <div class="card-desc">Follow your shipment live with real-time photos and status updates.</div>
     </div>
-    <div class="annotation-card" id="card-3" data-show="0.55" data-hide="0.78">
-      <div class="card-num">03 — SÉCURITÉ</div>
+    <div class="annotation-card" id="card-3" data-show="0.55" data-hide="0.78" style="border-color:rgba(245,166,35,0.3);">
+      <div class="card-num" style="color:#F5A623">03 — SÉCURITÉ</div>
       <div class="card-title">Photo Documentation</div>
       <div class="card-desc">Photos at loading — your cargo is protected and documented from day one.</div>
     </div>
-    <div class="annotation-card" id="card-4" data-show="0.78" data-hide="1.0">
-      <div class="card-num">04 — LIVRAISON</div>
+    <div class="annotation-card" id="card-4" data-show="0.78" data-hide="1.0" style="border-color:rgba(230,51,41,0.3);">
+      <div class="card-num" style="color:#E63329">04 — LIVRAISON</div>
       <div class="card-title">On-Time Delivery</div>
       <div class="card-desc">Livraison ponctuelle garantie. Your schedule is our commitment.</div>
     </div>
@@ -929,34 +1184,134 @@
   </div>
 </section>
 
+<!-- Social Ticker -->
+<div class="social-ticker" aria-label="Follow us on social media">
+  <div class="ticker-track" id="tickerTrack">
+    <!-- Set A -->
+    <a class="ticker-item" href="https://www.instagram.com/maka_ship" target="_blank" rel="noopener">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+      @maka_ship
+    </a>
+    <span class="ticker-sep"></span>
+    <a class="ticker-item" href="https://www.facebook.com/maka_ship" target="_blank" rel="noopener">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+      @maka_ship
+    </a>
+    <span class="ticker-sep"></span>
+    <a class="ticker-item" href="https://www.instagram.com/maka_ship" target="_blank" rel="noopener">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+      @maka_ship
+    </a>
+    <span class="ticker-sep"></span>
+    <a class="ticker-item" href="https://www.facebook.com/maka_ship" target="_blank" rel="noopener">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+      @maka_ship
+    </a>
+    <span class="ticker-sep"></span>
+    <a class="ticker-item" href="https://www.instagram.com/maka_ship" target="_blank" rel="noopener">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+      @maka_ship
+    </a>
+    <span class="ticker-sep"></span>
+    <a class="ticker-item" href="https://www.facebook.com/maka_ship" target="_blank" rel="noopener">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+      @maka_ship
+    </a>
+    <span class="ticker-sep"></span>
+    <!-- Set B (duplicate for seamless loop) -->
+    <a class="ticker-item" href="https://www.instagram.com/maka_ship" target="_blank" rel="noopener">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+      @maka_ship
+    </a>
+    <span class="ticker-sep"></span>
+    <a class="ticker-item" href="https://www.facebook.com/maka_ship" target="_blank" rel="noopener">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+      @maka_ship
+    </a>
+    <span class="ticker-sep"></span>
+    <a class="ticker-item" href="https://www.instagram.com/maka_ship" target="_blank" rel="noopener">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+      @maka_ship
+    </a>
+    <span class="ticker-sep"></span>
+    <a class="ticker-item" href="https://www.facebook.com/maka_ship" target="_blank" rel="noopener">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+      @maka_ship
+    </a>
+    <span class="ticker-sep"></span>
+    <a class="ticker-item" href="https://www.instagram.com/maka_ship" target="_blank" rel="noopener">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+      @maka_ship
+    </a>
+    <span class="ticker-sep"></span>
+    <a class="ticker-item" href="https://www.facebook.com/maka_ship" target="_blank" rel="noopener">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+      @maka_ship
+    </a>
+    <span class="ticker-sep"></span>
+  </div>
+</div>
+
 <!-- Features / Services -->
 <section id="features">
   <div class="inner">
-    <div style="text-align:center; margin-bottom: 4rem;">
+    <div class="features-head">
       <div class="section-eyebrow">Nos Services</div>
-      <h2 class="section-title">Premium Logistics Services</h2>
+      <h2 class="section-title">Premium Logistics<br>Services</h2>
     </div>
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">🚢</div>
-        <div class="feature-title">Consultation D'expédition</div>
-        <div class="feature-desc">Expert guidance to find the best shipping solution for your needs. Whether you're a small or large business, we tailor our approach to your specific logistics requirements — contact us to get started.</div>
+    <div class="features-twocol">
+
+      <!-- Left: clickable list -->
+      <div class="features-list-col">
+        <div class="svc-list">
+          <div class="svc-item active" onclick="selectSvc(this, 0)">
+            <div class="svc-dot"></div>
+            <div>
+              <div class="svc-item-title">Consultation D'expédition</div>
+              <div class="svc-item-short">Expert shipping guidance tailored to your needs</div>
+            </div>
+          </div>
+          <div class="svc-item" onclick="selectSvc(this, 1)">
+            <div class="svc-dot"></div>
+            <div>
+              <div class="svc-item-title">Exportation Internationale</div>
+              <div class="svc-item-short">Full-service export from Canada to the world</div>
+            </div>
+          </div>
+          <div class="svc-item" onclick="selectSvc(this, 2)">
+            <div class="svc-dot"></div>
+            <div>
+              <div class="svc-item-title">Achat &amp; Exportation Sur Demande</div>
+              <div class="svc-item-short">We source and ship vehicles on your behalf</div>
+            </div>
+          </div>
+          <div class="svc-item" onclick="selectSvc(this, 3)">
+            <div class="svc-dot"></div>
+            <div>
+              <div class="svc-item-title">Suivi des Véhicules</div>
+              <div class="svc-item-short">Real-time tracking with photo updates</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">🌍</div>
-        <div class="feature-title">Exportation International</div>
-        <div class="feature-desc">Seamless international export of vehicles, pallets and personal goods from Canada to destinations worldwide. Maritime, air, road and rail — we handle every mode with precision and reliability.</div>
+
+      <!-- Right: live preview panel -->
+      <div class="svc-preview-card">
+        <img class="svc-preview-img" id="svcPreviewImg"
+          src="consultation-pic.png" alt="" />
+        <div class="svc-preview-body">
+          <div class="svc-preview-num" id="svcPreviewNum">01 — CONSULTATION</div>
+          <div class="svc-preview-title" id="svcPreviewTitle">Consultation D'expédition</div>
+          <p class="svc-preview-desc" id="svcPreviewDesc">Expert guidance to find the best shipping solution for your needs. Whether you're a small or large business, we tailor our approach to your specific logistics requirements. Our consultants assess your timeline, budget, and destination to recommend the optimal route and method.</p>
+          <div class="svc-preview-tags" id="svcPreviewTags">
+            <span class="svc-tag" style="border-color:rgba(59,158,255,0.4);color:var(--accent)">Free Consultation</span>
+            <span class="svc-tag" style="border-color:rgba(59,158,255,0.4);color:var(--accent)">All Cargo Types</span>
+            <span class="svc-tag" style="border-color:rgba(59,158,255,0.4);color:var(--accent)">24h Response</span>
+          </div>
+          <a href="contact.html" class="svc-cta">Get a Quote →</a>
+        </div>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">🚗</div>
-        <div class="feature-title">Achat &amp; Exportation Sur Demande</div>
-        <div class="feature-desc">We source and export vehicles on your behalf. Tell us what you need and our experienced team handles everything — from acquisition to delivery at your door, anywhere in the world.</div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">📍</div>
-        <div class="feature-title">Suivi des Véhicules</div>
-        <div class="feature-desc">Our powerful tracking system lets you monitor your shipment status in real time. Travel with complete peace of mind — follow your cargo at every stage of the journey, with photo updates at loading.</div>
-      </div>
+
     </div>
   </div>
 </section>
@@ -971,7 +1326,20 @@
     </div>
     <div class="vehicles-grid">
       <div class="vehicle-card">
-        <div class="vehicle-img-placeholder">🚙</div>
+        <!-- Multi-image gallery — add more src values to data-images to add photos -->
+        <div class="vehicle-gallery"
+          data-images='["kia-sorento.png"]'
+          data-name="2016 Kia Sorento"
+          onclick="vgExpand(this)">
+          <div class="vg-count">1 / 1</div>
+          <div class="vehicle-gallery-track">
+            <img src="kia-sorento.png" alt="2016 Kia Sorento" />
+          </div>
+          <button class="vg-btn vg-prev" onclick="vgStep(event,this,-1)">‹</button>
+          <button class="vg-btn vg-next" onclick="vgStep(event,this,1)">›</button>
+          <div class="vg-dots"><div class="vg-dot active"></div></div>
+          <div class="vg-expand" onclick="vgExpand(this.closest('.vehicle-gallery'))">⤢</div>
+        </div>
         <div class="vehicle-info">
           <div class="vehicle-badge">Available Now</div>
           <div class="vehicle-name">2016 Kia Sorento</div>
@@ -1015,34 +1383,6 @@
   </div>
 </section>
 
-<!-- Vision / Who We Are -->
-<section id="vision">
-  <div class="inner">
-    <div>
-      <div class="vision-label">Notre Vision — Qui Nous Sommes</div>
-      <h2 class="vision-title">Built on Trust,<br>Driven by Expertise.</h2>
-      <p class="vision-body">Transport international de véhicules et palettes au Canada — Makaship offre des solutions logistiques fiables pour le transport sécurisé de vos marchandises.<br><br>Real-time tracking, photos at loading, and punctual delivery guarantee the satisfaction of our clients. Trust our expertise for all your transport and logistics needs across Canada and beyond.</p>
-    </div>
-    <div class="vision-pillars">
-      <div class="pillar">
-        <div class="pillar-num">03 — ÉQUIPE</div>
-        <div class="pillar-title">Équipe Expérimentée</div>
-        <div class="pillar-desc">Our team of professionals guarantees vehicle availability and service excellence. With many years of experience in transport, we are committed to delivering premium services tailored to your needs.</div>
-      </div>
-      <div class="pillar">
-        <div class="pillar-num">02 — SERVICE</div>
-        <div class="pillar-title">Service Client Dédié</div>
-        <div class="pillar-desc">Notre équipe d'assistance clientèle dédiée vous accompagne à chaque étape — offering exceptional service and responding quickly to all your questions and requirements.</div>
-      </div>
-      <div class="pillar">
-        <div class="pillar-num">01 — SUIVI</div>
-        <div class="pillar-title">Suivi des Véhicules</div>
-        <div class="pillar-desc">Our high-performance vehicle tracking system lets you follow the status of your shipment in real time. Track your delivery and travel with complete peace of mind.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- CTA -->
 <section id="cta">
   <div class="cta-orb"></div>
@@ -1050,7 +1390,7 @@
   <h2 class="cta-title" style="position:relative">Move Your Vehicle<br>Anywhere in the World.</h2>
   <p class="cta-sub" style="position:relative">Contactez notre équipe aujourd'hui pour obtenir un devis personnalisé. Fast, secure, and reliable — that's the Makaship promise.</p>
   <div style="position:relative; display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
-    <a href="mailto:info@makaship.com?subject=Quote Request" class="btn-primary">Get a Quote</a>
+    <a href="contact.html" class="btn-primary">Get a Quote</a>
     <a href="tel:+15145021163" class="btn-secondary">+1 514 502 1163</a>
   </div>
 </section>
@@ -1062,24 +1402,30 @@
       <div class="section-eyebrow">Ce que nos clients en disent</div>
       <h2 class="section-title">What Our Clients Say</h2>
     </div>
-    <div class="testimonials-track" id="testimonials-track">
-      <div class="testimonial-card">
-        <div class="t-stars">★★★★★</div>
-        <div class="t-quote">"Service rapide et efficace. My vehicle arrived on time and in perfect condition. Makaship handled everything professionally from start to finish."</div>
-        <div class="t-author">Samuel Jackson</div>
-        <div class="t-role">Client Satisfait</div>
+    <div class="t-slide">
+      <div class="t-photo">
+        <img id="t-img" src="samuel-jackson.png" alt="Client vehicle" />
       </div>
-      <div class="testimonial-card">
+      <div class="t-content">
+        <div class="t-quote-mark">"</div>
+        <p class="t-quote" id="t-quote">"Service rapide et efficace. My vehicle arrived on time and in perfect condition. Makaship handled everything professionally from start to finish."</p>
         <div class="t-stars">★★★★★</div>
-        <div class="t-quote">"I was kept informed at every step of the journey. The real-time tracking and photo updates gave me complete peace of mind. Je recommande vivement."</div>
-        <div class="t-author">Marie Tremblay</div>
-        <div class="t-role">Returning Customer</div>
-      </div>
-      <div class="testimonial-card">
-        <div class="t-stars">★★★★★</div>
-        <div class="t-quote">"Exceptional team with deep expertise in international logistics. They made a complex cross-border shipment feel effortless. Excellence en transport et logistique."</div>
-        <div class="t-author">Amadou Diallo</div>
-        <div class="t-role">Business Owner</div>
+        <div class="t-author-row">
+          <img class="t-avatar" id="t-avatar" src="samuel-jackson.png" alt="" />
+          <div>
+            <div class="t-author" id="t-name">Samuel Jackson</div>
+            <div class="t-role" id="t-role">Client Satisfait</div>
+          </div>
+        </div>
+        <div class="t-controls">
+          <div class="t-dots">
+            <div class="t-dot active" onclick="tGo(0)"></div>
+            <div class="t-dot" onclick="tGo(1)"></div>
+            <div class="t-dot" onclick="tGo(2)"></div>
+          </div>
+          <button class="t-nav-btn" onclick="tStep(-1)">←</button>
+          <button class="t-nav-btn" onclick="tStep(1)">→</button>
+        </div>
       </div>
     </div>
   </div>
@@ -1338,13 +1684,185 @@ const specObserver = new IntersectionObserver((entries) => {
 }, { threshold: 0.5 });
 specNumbers.forEach(el => specObserver.observe(el));
 
-// ─── TESTIMONIALS DRAG SCROLL ─────────────────────────────────────────────────
-const track = document.getElementById('testimonials-track');
-let isDown = false, startX, scrollLeft;
-track.addEventListener('mousedown', e => { isDown = true; startX = e.pageX - track.offsetLeft; scrollLeft = track.scrollLeft; track.style.cursor = 'grabbing'; });
-track.addEventListener('mouseleave', () => { isDown = false; track.style.cursor = 'grab'; });
-track.addEventListener('mouseup', () => { isDown = false; track.style.cursor = 'grab'; });
-track.addEventListener('mousemove', e => { if (!isDown) return; e.preventDefault(); const x = e.pageX - track.offsetLeft; track.scrollLeft = scrollLeft - (x - startX); });
+// ─── SERVICES LIST + PREVIEW ──────────────────────────────────────────────────
+const svcData = [
+  {
+    num: '01 — CONSULTATION',
+    title: "Consultation D'expédition",
+    desc: "Expert guidance to find the best shipping solution for your needs. Whether you're a small or large business, we tailor our approach to your specific logistics requirements. Our consultants assess your timeline, budget, and destination to recommend the optimal route and method.",
+    img: 'consultation-pic.png',
+    tags: ['Free Consultation', 'All Cargo Types', '24h Response'],
+    color: '#3B9EFF', colorAlpha: 'rgba(59,158,255,0.35)'
+  },
+  {
+    num: '02 — EXPORTATION',
+    title: 'Exportation Internationale',
+    desc: "Seamless international export of vehicles, pallets and personal goods from Canada to destinations worldwide. Maritime, air, road and rail — we handle every mode with full documentation, customs clearance, and port coordination handled end-to-end.",
+    img: 'https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=900&q=80&auto=format&fit=crop',
+    tags: ['50+ Countries', 'All Modes', 'Customs Included'],
+    color: '#E63329', colorAlpha: 'rgba(230,51,41,0.35)'
+  },
+  {
+    num: '03 — ACHAT',
+    title: 'Achat & Exportation Sur Demande',
+    desc: "We source and export vehicles on your behalf from Canadian auctions and dealers. Tell us what you need and our experienced team handles everything — from acquisition to delivery at your door, anywhere in the world. Inspection reports and photos provided throughout.",
+    img: 'achat-exportation.png',
+    tags: ['Door to Door', 'Photo Inspection', 'Any Vehicle'],
+    color: '#2DB04B', colorAlpha: 'rgba(45,176,75,0.35)'
+  },
+  {
+    num: '04 — SUIVI',
+    title: 'Suivi des Véhicules',
+    desc: "Our powerful tracking system lets you monitor your shipment status in real time. Follow your cargo at every stage of the journey with photo updates at loading and live status notifications sent directly to you. Travel with complete peace of mind.",
+    img: 'tracking.png',
+    tags: ['Live Tracking', 'Photo Updates', 'SMS Notifications'],
+    color: '#F5A623', colorAlpha: 'rgba(245,166,35,0.35)'
+  }
+];
+function selectSvc(el, idx) {
+  document.querySelectorAll('.svc-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+  const d = svcData[idx];
+  const img = document.getElementById('svcPreviewImg');
+  img.style.opacity = '0';
+  setTimeout(() => { img.src = d.img; img.style.opacity = '0.75'; }, 200);
+  document.getElementById('svcPreviewNum').textContent = d.num;
+  document.getElementById('svcPreviewNum').style.color = d.color;
+  document.getElementById('svcPreviewTitle').textContent = d.title;
+  document.getElementById('svcPreviewDesc').textContent = d.desc;
+  const tagsEl = document.getElementById('svcPreviewTags');
+  tagsEl.innerHTML = d.tags.map(t => `<span class="svc-tag" style="border-color:${d.colorAlpha};color:${d.color}">${t}</span>`).join('');
+}
+
+// ─── TESTIMONIALS ─────────────────────────────────────────────────────────────
+const ANON_IMG = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 600'%3E%3Crect width='400' height='600' fill='%23141416'/%3E%3Ccircle cx='200' cy='210' r='90' fill='%23232328'/%3E%3Ccircle cx='200' cy='190' r='52' fill='%23333'/%3E%3Cpath d='M60 590c0-77.3 62.7-140 140-140s140 62.7 140 140' fill='%23333'/%3E%3Crect x='175' y='285' width='50' height='38' rx='6' fill='%233B9EFF' opacity='.18'/%3E%3Ccircle cx='200' cy='300' r='8' fill='%233B9EFF' opacity='.35'/%3E%3C/svg%3E`;
+const ANON_AVATAR = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' rx='40' fill='%23232328'/%3E%3Ccircle cx='40' cy='32' r='14' fill='%23444'/%3E%3Cpath d='M12 76c0-15.5 12.5-28 28-28s28 12.5 28 28' fill='%23444'/%3E%3C/svg%3E`;
+
+const tData = [
+  {
+    img: 'samuel-jackson.png',
+    avatar: 'samuel-jackson.png',
+    name: 'Samuel Jackson', role: 'Client Satisfait',
+    quote: '"Service rapide et efficace."'
+  },
+  {
+    img: 'binta-fadiga.png',
+    avatar: 'binta-fadiga.png',
+    name: 'Binta Fadiga', role: 'Cliente Satisfaite',
+    quote: '"Excellent service à la clientèle. La compagnie est rapide et fiable."'
+  },
+  {
+    img: 'rama-jamal.png',
+    avatar: 'rama-jamal.png',
+    name: 'Rama Jamal', role: 'Client Satisfait',
+    quote: '"Transport performant et digne de confiance ! Je suis extrêmement satisfait de votre service ; mes affaires sont arrivées en parfait état au Niger. Je recommande vivement Makaship : prix très compétitifs, professionnalisme et honnêteté."'
+  }
+];
+let tCurrent = 0;
+function tGo(idx) {
+  tCurrent = idx;
+  const d = tData[idx];
+  document.getElementById('t-img').src = d.img;
+  document.getElementById('t-avatar').src = d.avatar;
+  document.getElementById('t-name').textContent = d.name;
+  document.getElementById('t-role').textContent = d.role;
+  document.getElementById('t-quote').textContent = d.quote;
+  document.querySelectorAll('.t-dot').forEach((dot, i) => dot.classList.toggle('active', i === idx));
+}
+function tStep(dir) { tGo((tCurrent + dir + tData.length) % tData.length); }
+
+// ─── VEHICLE GALLERY ─────────────────────────────────────────────────────────
+function vgInit(gallery) {
+  const images = JSON.parse(gallery.dataset.images || '[]');
+  if (images.length <= 1) return;
+  const track = gallery.querySelector('.vehicle-gallery-track');
+  const dotsEl = gallery.querySelector('.vg-dots');
+  const countEl = gallery.querySelector('.vg-count');
+  // Build slides
+  track.innerHTML = images.map(src => `<img src="${src}" alt="" />`).join('');
+  // Build dots
+  dotsEl.innerHTML = images.map((_, i) => `<div class="vg-dot${i===0?' active':''}"></div>`).join('');
+  countEl.textContent = `1 / ${images.length}`;
+  gallery.dataset.current = '0';
+}
+
+function vgStep(e, btn, dir) {
+  e.stopPropagation();
+  const gallery = btn.closest('.vehicle-gallery');
+  const images = JSON.parse(gallery.dataset.images || '[]');
+  if (images.length <= 1) return;
+  let cur = parseInt(gallery.dataset.current || '0');
+  cur = (cur + dir + images.length) % images.length;
+  gallery.dataset.current = cur;
+  gallery.querySelector('.vehicle-gallery-track').style.transform = `translateX(-${cur * 100}%)`;
+  gallery.querySelectorAll('.vg-dot').forEach((d, i) => d.classList.toggle('active', i === cur));
+  gallery.querySelector('.vg-count').textContent = `${cur + 1} / ${images.length}`;
+}
+
+function vgExpand(gallery) {
+  const images = JSON.parse(gallery.dataset.images || '[]');
+  if (!images.length) return;
+  const cur = parseInt(gallery.dataset.current || '0');
+  const name = gallery.dataset.name || '';
+  openVLightbox(images, cur, name);
+}
+
+// Lightbox
+let vlImages = [], vlCurrent = 0;
+function openVLightbox(images, idx, name) {
+  vlImages = images; vlCurrent = idx;
+  const lb = document.getElementById('vLightbox');
+  lb.querySelector('.vl-title').textContent = name;
+  renderVL();
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function renderVL() {
+  const lb = document.getElementById('vLightbox');
+  lb.querySelector('.vl-img').src = vlImages[vlCurrent];
+  lb.querySelector('.vl-counter').textContent = `${vlCurrent + 1} / ${vlImages.length}`;
+  // Thumbs
+  const thumbsEl = lb.querySelector('.vl-thumbs');
+  thumbsEl.innerHTML = vlImages.map((src, i) =>
+    `<div class="vl-thumb${i===vlCurrent?' active':''}" onclick="vlGo(${i})"><img src="${src}" /></div>`
+  ).join('');
+  // Hide nav if single image
+  lb.querySelectorAll('.vl-nav').forEach(b => b.style.display = vlImages.length > 1 ? '' : 'none');
+}
+function vlGo(idx) { vlCurrent = idx; renderVL(); }
+function vlStep(dir) { vlGo((vlCurrent + dir + vlImages.length) % vlImages.length); }
+function closeVLightbox() {
+  document.getElementById('vLightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => {
+  const lb = document.getElementById('vLightbox');
+  if (!lb.classList.contains('open')) return;
+  if (e.key === 'Escape') closeVLightbox();
+  if (e.key === 'ArrowLeft') vlStep(-1);
+  if (e.key === 'ArrowRight') vlStep(1);
+});
+
+// Init all galleries on load
+document.querySelectorAll('.vehicle-gallery').forEach(vgInit);
 </script>
+
+<!-- Vehicle Lightbox -->
+<div id="vLightbox" onclick="if(event.target===this)closeVLightbox()">
+  <div class="vl-inner">
+    <button class="vl-close" onclick="closeVLightbox()">✕</button>
+    <div class="vl-img-wrap">
+      <button class="vl-nav vl-prev" onclick="vlStep(-1)">‹</button>
+      <img class="vl-img" src="" alt="" />
+      <button class="vl-nav vl-next" onclick="vlStep(1)">›</button>
+    </div>
+    <div class="vl-footer">
+      <div class="vl-title"></div>
+      <div class="vl-counter"></div>
+      <div class="vl-thumbs"></div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>

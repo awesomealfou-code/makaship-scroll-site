@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — Makaship</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Archivo:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --accent: #3B9EFF;
+      --accent-dim: rgba(59, 158, 255, 0.15);
+      --accent-glow: rgba(59, 158, 255, 0.35);
+      --bg: #1a1a1e;
+      --bg2: #141416;
+      --surface: rgba(255,255,255,0.04);
+      --border: rgba(255,255,255,0.08);
+      --text: #f0edf1;
+      --muted: rgba(240,237,241,0.5);
+      --font-head: 'Space Grotesk', sans-serif;
+      --font-body: 'Archivo', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    ::selection { background: var(--accent); color: #1a1a1e; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg2); }
+    ::-webkit-scrollbar-thumb { background: linear-gradient(var(--accent), #2178cc); border-radius: 3px; }
+
+    /* ── STARSCAPE ── */
+    #starscape {
+      position: fixed; inset: 0; z-index: 0;
+      pointer-events: none; opacity: 0.6;
+    }
+
+    /* ── NAVBAR ── */
+    #navbar {
+      position: fixed; top: 1.5rem; left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 4rem); max-width: 1200px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 2rem; z-index: 500;
+      transition: all 0.5s cubic-bezier(0.4,0,0.2,1);
+    }
+    #navbar.scrolled {
+      max-width: 860px;
+      background: rgba(20,20,22,0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 0.75rem 1.75rem;
+    }
+    .nav-brand {
+      display: flex; align-items: center; gap: 0.75rem; text-decoration: none;
+    }
+    .nav-brand img { height: 36px; width: auto; object-fit: contain; }
+    .nav-brand span {
+      font-family: var(--font-head); font-size: 1.1rem;
+      font-weight: 600; color: var(--text); letter-spacing: 0.02em;
+    }
+    .nav-links {
+      display: flex; align-items: center; gap: 2rem; list-style: none;
+    }
+    .nav-links a {
+      font-family: var(--font-body); font-size: 0.875rem;
+      color: var(--muted); text-decoration: none; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      background: var(--accent); color: #1a1a1e !important;
+      padding: 0.5rem 1.25rem; border-radius: 100px;
+      font-weight: 600 !important; font-size: 0.8rem !important;
+      box-shadow: 0 0 20px var(--accent-glow);
+      transition: box-shadow 0.3s, transform 0.2s !important;
+    }
+    .nav-cta:hover {
+      box-shadow: 0 0 35px var(--accent-glow) !important;
+      transform: translateY(-1px);
+    }
+    @media (max-width: 768px) {
+      #navbar { width: calc(100% - 2rem); }
+      .nav-links { display: none; }
+    }
+
+    /* ── PAGE WRAPPER ── */
+    .page {
+      position: relative; z-index: 10;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      padding: 120px 40px 80px;
+    }
+
+    /* ── EYEBROW ── */
+    .eyebrow {
+      font-family: var(--font-mono); font-size: 0.7rem;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 16px;
+    }
+
+    /* ── HEADLINE ── */
+    .contact-headline {
+      font-family: var(--font-head);
+      font-size: clamp(56px, 8vw, 110px);
+      font-weight: 700; letter-spacing: -4px;
+      line-height: 1; margin-bottom: 64px;
+      text-align: left; width: 100%; max-width: 900px;
+    }
+    .contact-headline span {
+      color: var(--accent);
+    }
+
+    /* ── GRID FORM ── */
+    .contact-wrap { width: 100%; max-width: 900px; }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border: 1px solid var(--border);
+      background: var(--bg2);
+    }
+
+    .contact-field {
+      padding: 28px 32px;
+      border: 1px solid var(--border);
+      position: relative;
+      transition: background 0.2s;
+    }
+    .contact-field:focus-within {
+      background: rgba(230,199,235,0.03);
+    }
+
+    .contact-field label {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .contact-field input,
+    .contact-field textarea,
+    .contact-field select {
+      background: none; border: none;
+      color: var(--text);
+      font-size: 17px;
+      font-family: var(--font-body);
+      width: 100%; outline: none; resize: none;
+      transition: all 0.2s;
+    }
+    .contact-field textarea { height: 100px; }
+    .contact-field input::placeholder,
+    .contact-field textarea::placeholder { color: rgba(240,237,241,0.15); }
+    .contact-field select option { background: var(--bg2); }
+
+    /* Red dot indicator */
+    .dot {
+      position: absolute; top: 28px; right: 28px;
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--border);
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+    .contact-field:focus-within .dot {
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    .span2 { grid-column: span 2; }
+
+    /* ── SUBMIT BUTTON ── */
+    .submit-btn {
+      width: 100%;
+      padding: 20px;
+      margin-top: 0;
+      background: var(--accent);
+      color: #1a1a1e;
+      border: none;
+      font-family: var(--font-head);
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: opacity 0.2s, box-shadow 0.3s;
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+    .submit-btn:hover {
+      opacity: 0.9;
+      box-shadow: 0 0 40px var(--accent-glow);
+    }
+    .submit-btn:active { opacity: 0.8; }
+
+    /* ── SUCCESS STATE ── */
+    .success-state {
+      display: none;
+      text-align: center;
+      padding: 80px 40px;
+      width: 100%; max-width: 900px;
+      border: 1px solid var(--border);
+      background: var(--bg2);
+    }
+    .success-state h3 {
+      font-family: var(--font-head);
+      font-size: 48px; font-weight: 700;
+      letter-spacing: -2px; margin-bottom: 16px;
+    }
+    .success-state p {
+      color: var(--muted); font-size: 16px; margin-bottom: 32px;
+    }
+    .success-state a {
+      color: var(--accent); text-decoration: none; font-size: 14px;
+      letter-spacing: 2px; text-transform: uppercase;
+      font-family: var(--font-mono);
+    }
+    .success-state a:hover { opacity: 0.7; }
+
+    /* ── INFO ROW ── */
+    .info-row {
+      display: flex; gap: 48px; margin-bottom: 48px;
+      flex-wrap: wrap;
+    }
+    .info-item { }
+    .info-label {
+      font-family: var(--font-mono); font-size: 0.65rem;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 6px;
+    }
+    .info-value {
+      font-family: var(--font-head); font-size: 15px; font-weight: 500;
+    }
+    .info-value a { color: var(--text); text-decoration: none; }
+    .info-value a:hover { color: var(--accent); }
+
+    /* ── FOOTER LINE ── */
+    .footer-line {
+      margin-top: 64px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      width: 100%; max-width: 900px;
+      font-family: var(--font-mono); font-size: 0.7rem;
+      color: var(--muted); letter-spacing: 0.1em;
+    }
+    .footer-line a { color: var(--muted); text-decoration: none; }
+    .footer-line a:hover { color: var(--accent); }
+  </style>
+</head>
+<body>
+
+<!-- Starscape -->
+<canvas id="starscape"></canvas>
+
+<!-- Navbar -->
+<nav id="navbar">
+  <a class="nav-brand" href="index.html">
+    <img src="logo.png" alt="Makaship" />
+    <span>Makaship</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#features">Services</a></li>
+    <li><a href="index.html#vehicles">Vehicles</a></li>
+    <li><a href="shipped.html">Shipped</a></li>
+    <li><a href="about.html">About Us</a></li>
+    <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
+  </ul>
+</nav>
+
+<!-- Page -->
+<div class="page">
+  <div class="contact-wrap">
+
+    <!-- Eyebrow -->
+    <div class="eyebrow">Get In Touch</div>
+
+    <!-- Headline -->
+    <h1 class="contact-headline">Contact <span>Us!</span></h1>
+
+    <!-- Info Row -->
+    <div class="info-row">
+      <div class="info-item">
+        <div class="info-label">Email</div>
+        <div class="info-value"><a href="mailto:info@makaship.com">info@makaship.com</a></div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">Phone</div>
+        <div class="info-value"><a href="tel:+15145021163">+1 514 502 1163</a></div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">Response Time</div>
+        <div class="info-value">Within 24 hours</div>
+      </div>
+    </div>
+
+    <!-- Form -->
+    <form id="contactForm">
+      <div class="contact-grid">
+        <div class="contact-field">
+          <label>Your Name</label>
+          <input type="text" name="name" placeholder="Full name" required />
+          <div class="dot"></div>
+        </div>
+        <div class="contact-field">
+          <label>Email Address</label>
+          <input type="email" name="email" placeholder="you@email.com" required />
+          <div class="dot"></div>
+        </div>
+        <div class="contact-field">
+          <label>Company / Organisation</label>
+          <input type="text" name="company" placeholder="Company name (optional)" />
+          <div class="dot"></div>
+        </div>
+        <div class="contact-field">
+          <label>Service Needed</label>
+          <select name="service">
+            <option value="" disabled selected>Select a service...</option>
+            <option value="export">International Export</option>
+            <option value="shipping">Vehicle Shipping</option>
+            <option value="air">Air Freight</option>
+            <option value="consultation">Shipping Consultation</option>
+            <option value="other">Other</option>
+          </select>
+          <div class="dot"></div>
+        </div>
+        <div class="contact-field span2">
+          <label>Message</label>
+          <textarea name="message" placeholder="Tell us about your vehicle, destination, timeline..." required></textarea>
+          <div class="dot"></div>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button class="submit-btn" onclick="submitForm()">Send Message →</button>
+    </form>
+
+    <!-- Success State -->
+    <div class="success-state" id="successState">
+      <h3>Message Sent. 🤝</h3>
+      <p>We'll be in touch within 24 hours.</p>
+      <a href="index.html">← Back to Makaship</a>
+    </div>
+
+  </div>
+
+  <!-- Footer Line -->
+  <div class="footer-line">
+    <span>© 2025 Makaship. All rights reserved.</span>
+    <a href="index.html">← Back to home</a>
+  </div>
+</div>
+
+<script>
+  /* ── Starscape ── */
+  const canvas = document.getElementById('starscape');
+  const ctx = canvas.getContext('2d');
+  let stars = [];
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  function createStars(n) {
+    stars = [];
+    for (let i = 0; i < n; i++) {
+      stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 1.2 + 0.2,
+        o: Math.random() * 0.5 + 0.1,
+        speed: Math.random() * 0.15 + 0.03
+      });
+    }
+  }
+  function drawStars() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    stars.forEach(s => {
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(230,199,235,${s.o})`;
+      ctx.fill();
+      s.y += s.speed;
+      if (s.y > canvas.height) { s.y = 0; s.x = Math.random() * canvas.width; }
+    });
+    requestAnimationFrame(drawStars);
+  }
+  resizeCanvas();
+  createStars(180);
+  drawStars();
+  window.addEventListener('resize', () => { resizeCanvas(); createStars(180); });
+
+  /* ── Navbar scroll ── */
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  /* ── Form submit ── */
+  function submitForm() {
+    const form = document.getElementById('contactForm');
+    const name = form.querySelector('[name="name"]').value.trim();
+    const email = form.querySelector('[name="email"]').value.trim();
+    const message = form.querySelector('[name="message"]').value.trim();
+
+    if (!name || !email || !message) {
+      // Highlight empty required fields
+      [form.querySelector('[name="name"]'), form.querySelector('[name="email"]'), form.querySelector('[name="message"]')].forEach(f => {
+        if (!f.value.trim()) {
+          f.closest('.contact-field').style.borderColor = 'rgba(230,199,235,0.4)';
+          setTimeout(() => f.closest('.contact-field').style.borderColor = '', 2000);
+        }
+      });
+      return;
+    }
+
+    // Show success
+    form.style.display = 'none';
+    document.querySelector('.submit-btn').style.display = 'none';
+    document.getElementById('successState').style.display = 'block';
+  }
+</script>
+</body>
+</html>

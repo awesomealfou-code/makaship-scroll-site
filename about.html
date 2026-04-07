@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us — Makaship</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Archivo:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --accent: #3B9EFF;
+      --accent-dim: rgba(59,158,255,0.12);
+      --accent-glow: rgba(59,158,255,0.4);
+      --bg: #1a1a1e;
+      --bg2: #141416;
+      --surface: rgba(255,255,255,0.04);
+      --border: rgba(255,255,255,0.08);
+      --text: #f0edf1;
+      --muted: rgba(240,237,241,0.5);
+      --font-head: 'Space Grotesk', sans-serif;
+      --font-body: 'Archivo', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --red: #E63329; --red-glow: rgba(230,51,41,0.35);
+      --green: #2DB04B; --green-glow: rgba(45,176,75,0.35);
+      --gold: #F5A623; --gold-glow: rgba(245,166,35,0.35);
+    }
+
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); overflow-x: hidden; min-height: 100vh; }
+    ::selection { background: var(--accent); color: #1a1a1e; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg2); }
+    ::-webkit-scrollbar-thumb { background: linear-gradient(var(--accent), #2178cc); border-radius: 3px; }
+
+    /* ── STARSCAPE ── */
+    #starscape { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.6; }
+
+    /* ── NAVBAR ── */
+    #navbar {
+      position: fixed; top: 1.5rem; left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 4rem); max-width: 1200px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 2rem; z-index: 500;
+      transition: all 0.5s cubic-bezier(0.4,0,0.2,1);
+    }
+    #navbar.scrolled {
+      max-width: 860px;
+      background: rgba(20,20,22,0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 0.75rem 1.75rem;
+    }
+    .nav-brand { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+    .nav-brand img { height: 36px; width: auto; object-fit: contain; }
+    .nav-brand span { font-family: var(--font-head); font-size: 1.1rem; font-weight: 600; color: var(--text); letter-spacing: 0.02em; }
+    .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+    .nav-links a { font-family: var(--font-body); font-size: 0.875rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a.active-page { color: var(--accent); }
+    .nav-cta {
+      background: var(--accent); color: #1a1a1e !important;
+      padding: 0.5rem 1.25rem; border-radius: 100px;
+      font-weight: 600 !important; font-size: 0.8rem !important;
+      box-shadow: 0 0 20px var(--accent-glow);
+      transition: box-shadow 0.3s, transform 0.2s !important;
+    }
+    .nav-cta:hover { box-shadow: 0 0 35px var(--accent-glow) !important; transform: translateY(-1px); }
+    @media (max-width: 768px) { #navbar { width: calc(100% - 2rem); } .nav-links { display: none; } }
+
+    /* ── PAGE HERO ── */
+    .page-hero {
+      position: relative; z-index: 10;
+      padding: 10rem 2rem 6rem;
+      text-align: center;
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+    }
+    .page-hero-glow {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 700px; height: 400px;
+      background: radial-gradient(ellipse, rgba(59,158,255,0.07) 0%, transparent 68%);
+      pointer-events: none;
+    }
+    .page-eyebrow {
+      font-family: var(--font-mono); font-size: 0.7rem;
+      letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 1rem;
+      position: relative; z-index: 2;
+    }
+    .page-title {
+      font-family: var(--font-head); font-size: clamp(3.5rem, 8vw, 7rem);
+      font-weight: 700; letter-spacing: -0.04em; line-height: 1;
+      position: relative; z-index: 2; margin-bottom: 1.5rem;
+    }
+    .page-title span { color: var(--accent); }
+    .page-sub {
+      font-size: 1rem; color: var(--muted); max-width: 500px;
+      margin: 0 auto; line-height: 1.7; position: relative; z-index: 2;
+    }
+
+    /* ── VISION SECTION ── */
+    #vision {
+      position: relative; z-index: 10;
+      padding: 7rem 2rem;
+      background: var(--bg);
+    }
+    #vision .inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: center;
+    }
+    .vision-label {
+      font-family: var(--font-mono); font-size: 0.7rem;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1rem;
+    }
+    .vision-title {
+      font-family: var(--font-head); font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700; letter-spacing: -0.02em;
+      margin-bottom: 1.5rem; line-height: 1.15;
+    }
+    .vision-body { font-size: 0.95rem; color: var(--muted); line-height: 1.8; }
+    .vision-pillars { display: flex; flex-direction: column; gap: 1.5rem; }
+    .pillar {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.5rem;
+      transition: border-color 0.3s;
+    }
+    .pillar:hover { border-color: rgba(59,158,255,0.3); }
+    .pillar-num { font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent); letter-spacing: 0.15em; margin-bottom: 0.5rem; }
+    .pillar-title { font-family: var(--font-head); font-size: 1rem; font-weight: 600; margin-bottom: 0.4rem; }
+    .pillar-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+    /* ── DIVIDER ── */
+    .section-divider {
+      max-width: 1100px; margin: 0 auto;
+      border: none; border-top: 1px solid var(--border);
+    }
+
+    /* ── FOUNDER STORY ── */
+    #founder {
+      position: relative; z-index: 10;
+      padding: 7rem 2rem;
+      background: var(--bg2);
+    }
+    .founder-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 400px 1fr;
+      gap: 5rem; align-items: start;
+    }
+
+    /* Photo column */
+    .founder-photo-col { position: relative; }
+    .founder-photo-wrap {
+      width: 100%; aspect-ratio: 3/4;
+      border-radius: 16px; overflow: hidden;
+      border: 1px solid var(--border);
+      background: linear-gradient(135deg, var(--bg), #232328);
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 1rem; color: var(--muted);
+    }
+    .founder-photo-wrap img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    .founder-photo-wrap svg { opacity: 0.25; }
+    .founder-photo-wrap span { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; }
+    .founder-badge {
+      position: absolute; bottom: -1.25rem; right: -1.25rem;
+      background: var(--accent); color: #1a1a1e;
+      border-radius: 12px; padding: 1rem 1.25rem;
+      font-family: var(--font-head);
+    }
+    .founder-badge-num { font-size: 1.8rem; font-weight: 700; line-height: 1; }
+    .founder-badge-label { font-size: 0.6rem; font-weight: 500; letter-spacing: 0.05em; opacity: 0.8; margin-top: 2px; }
+
+    /* Story column */
+    .founder-story-col { padding-top: 0.5rem; }
+    .founder-eyebrow {
+      font-family: var(--font-mono); font-size: 0.65rem;
+      letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 1.25rem;
+    }
+    .founder-title {
+      font-family: var(--font-head); font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 700; letter-spacing: -0.03em; line-height: 1.1;
+      margin-bottom: 2rem;
+    }
+    .founder-title span { color: var(--accent); }
+    .founder-body {
+      font-size: 0.95rem; color: var(--muted);
+      line-height: 1.85; margin-bottom: 2rem;
+    }
+    .founder-quote {
+      border-left: 3px solid var(--accent);
+      padding-left: 1.5rem;
+      font-family: var(--font-head); font-size: 1.05rem;
+      font-style: italic; line-height: 1.55;
+      margin-bottom: 2.5rem; color: var(--text);
+    }
+    .founder-sig { font-family: var(--font-head); font-weight: 600; font-size: 1rem; }
+    .founder-sig-role {
+      font-family: var(--font-mono); font-size: 0.6rem;
+      letter-spacing: 0.15em; color: var(--muted);
+      text-transform: uppercase; margin-top: 0.25rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative; z-index: 10;
+      border-top: 3px solid var(--red);
+      box-shadow: 0 -4px 24px var(--red-glow);
+      padding: 2rem; text-align: center;
+      background: var(--bg2);
+    }
+    .footer-copy {
+      font-family: var(--font-mono); font-size: 0.65rem;
+      letter-spacing: 0.15em; color: var(--muted);
+    }
+    .footer-copy a { color: var(--muted); text-decoration: none; }
+    .footer-copy a:hover { color: var(--accent); }
+
+    @media (max-width: 900px) {
+      #vision .inner, .founder-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .founder-badge { bottom: 1rem; right: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="starscape"></canvas>
+
+<!-- Navbar -->
+<nav id="navbar">
+  <a class="nav-brand" href="index.html">
+    <img src="logo.png" alt="Makaship" />
+    <span>Makaship</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#features">Services</a></li>
+    <li><a href="index.html#vehicles">Vehicles</a></li>
+    <li><a href="shipped.html">Shipped</a></li>
+    <li><a href="about.html" class="active-page">About Us</a></li>
+    <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
+  </ul>
+</nav>
+
+<!-- Page Hero -->
+<div class="page-hero">
+  <div class="page-hero-glow"></div>
+  <p class="page-eyebrow">Notre Histoire — Qui Nous Sommes</p>
+  <h1 class="page-title">About <span>Us.</span></h1>
+  <p class="page-sub">Transport international de véhicules depuis Montréal — fiable, transparent, et toujours à temps.</p>
+</div>
+
+<!-- Vision / Who We Are -->
+<section id="vision">
+  <div class="inner">
+    <div>
+      <div style="width:100%;height:260px;border-radius:12px;overflow:hidden;margin-bottom:2rem;border:1px solid var(--border);">
+        <img src="team-photo.png" alt="Makaship logistics team" style="width:100%;height:100%;object-fit:cover;opacity:0.85;" />
+      </div>
+      <div class="vision-label">Notre Vision — Qui Nous Sommes</div>
+      <h2 class="vision-title">Built on Trust,<br>Driven by Expertise.</h2>
+      <p class="vision-body">Transport international de véhicules et palettes au Canada — Makaship offre des solutions logistiques fiables pour le transport sécurisé de vos marchandises.<br><br>Real-time tracking, photos at loading, and punctual delivery guarantee the satisfaction of our clients. Trust our expertise for all your transport and logistics needs across Canada and beyond.</p>
+    </div>
+    <div class="vision-pillars">
+      <div class="pillar">
+        <div class="pillar-num">03 — ÉQUIPE</div>
+        <div class="pillar-title">Équipe Expérimentée</div>
+        <div class="pillar-desc">Our team of professionals guarantees vehicle availability and service excellence. With many years of experience in transport, we are committed to delivering premium services tailored to your needs.</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">02 — SERVICE</div>
+        <div class="pillar-title">Service Client Dédié</div>
+        <div class="pillar-desc">Notre équipe d'assistance clientèle dédiée vous accompagne à chaque étape — offering exceptional service and responding quickly to all your questions and requirements.</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">01 — SUIVI</div>
+        <div class="pillar-title">Suivi des Véhicules</div>
+        <div class="pillar-desc">Our high-performance vehicle tracking system lets you follow the status of your shipment in real time. Track your delivery and travel with complete peace of mind.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider" />
+
+<!-- Founder Story -->
+<section id="founder">
+  <div class="founder-inner">
+
+    <!-- Photo -->
+    <div class="founder-photo-col">
+      <div class="founder-photo-wrap">
+        <img src="makaship-founder.jpg" alt="Makaship Founder" />
+      </div>
+      <div class="founder-badge">
+        <div class="founder-badge-num">500+</div>
+        <div class="founder-badge-label">Vehicles Shipped</div>
+      </div>
+    </div>
+
+    <!-- Story -->
+    <div class="founder-story-col">
+      <div class="founder-eyebrow">Notre Histoire — Fondateur</div>
+      <h2 class="founder-title">We Built the Company<br><span>We Wished Existed.</span></h2>
+      <p class="founder-body">International vehicle shipping was broken. Hidden fees, no real tracking, unreachable support — clients were losing sleep over vehicles worth tens of thousands of dollars with no idea where they were.<br><br>Makaship was founded in Montréal to change that. We built a process around three things: photo documentation at every stage, real-time tracking from loading to delivery, and a direct line to a real person who knows your shipment.<br><br>Today, we ship vehicles and cargo to over 50 destinations worldwide — and every single shipment gets the same level of care as the first one.</p>
+      <div class="founder-quote">"We treat every client's vehicle like it's our own. That's not a tagline — it's how we operate every single day."</div>
+      <div class="founder-sig">— The Makaship Team</div>
+      <div class="founder-sig-role">Fondateurs, Makaship · Montréal, QC</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p class="footer-copy">© 2026 Makaship. All rights reserved. · <a href="index.html">← Back to Home</a> · <a href="contact.html">Contact Us</a></p>
+</footer>
+
+<script>
+  /* Starscape */
+  (function(){
+    const canvas = document.getElementById('starscape');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    function init() {
+      stars = Array.from({length: 180}, () => ({
+        x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+        r: Math.random() * 1.2 + 0.2, o: Math.random() * 0.4 + 0.1,
+        speed: Math.random() * 0.12 + 0.02
+      }));
+    }
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      stars.forEach(s => {
+        ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+        ctx.fillStyle = `rgba(59,158,255,${s.o})`; ctx.fill();
+        s.y += s.speed;
+        if (s.y > canvas.height) { s.y = 0; s.x = Math.random() * canvas.width; }
+      });
+      requestAnimationFrame(draw);
+    }
+    resize(); init(); draw();
+    window.addEventListener('resize', () => { resize(); init(); });
+  })();
+
+  /* Navbar scroll */
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+  });
+</script>
+</body>
+</html>

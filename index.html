@@ -1986,7 +1986,7 @@ function closeMobileMenu() {
     box-shadow: 0 0 16px rgba(59,158,255,0.4);
     border: 1px solid rgba(59,158,255,0.3);
   }
-  .chat-avatar img { width: 100%; height: 100%; object-fit: cover; object-position: center top; transform: scale(1.25); border-radius: 50%; }
+  .chat-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
   .chat-header-info { flex: 1; }
   .chat-header-name {
     font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 0.9rem;
@@ -2200,7 +2200,7 @@ function addBotMessage(text) {
   // Show typing first
   const typing = document.createElement('div');
   typing.className = 'msg bot typing-indicator';
-  typing.innerHTML = `<div class="msg-avatar"><img src="logo.png" style="width:100%;height:100%;object-fit:cover;object-position:center top;transform:scale(1.25);border-radius:50%;" /></div><div class="msg-bubble"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`;
+  typing.innerHTML = `<div class="msg-avatar"><img src="logo.png" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" /></div><div class="msg-bubble"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`;
   messages.appendChild(typing);
   messages.scrollTop = messages.scrollHeight;
 
@@ -2209,7 +2209,7 @@ function addBotMessage(text) {
     const msg = document.createElement('div');
     msg.className = 'msg bot';
     msg.innerHTML = `
-      <div class="msg-avatar"><img src="logo.png" style="width:100%;height:100%;object-fit:cover;object-position:center top;transform:scale(1.25);border-radius:50%;" /></div>
+      <div class="msg-avatar"><img src="logo.png" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" /></div>
       <div>
         <div class="msg-bubble">${text}</div>
         <div class="msg-time">${getTime()}</div>

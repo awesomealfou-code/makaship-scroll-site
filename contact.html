@@ -91,9 +91,21 @@
       box-shadow: 0 0 35px var(--accent-glow) !important;
       transform: translateY(-1px);
     }
+    .hamburger { display:none; flex-direction:column; justify-content:center; align-items:center; gap:5px; width:36px; height:36px; background:none; border:1px solid var(--border); border-radius:8px; cursor:pointer; padding:0; z-index:600; transition:border-color 0.2s; }
+    .hamburger:hover { border-color:var(--accent); }
+    .hamburger span { display:block; width:18px; height:1.5px; background:var(--text); border-radius:2px; transition:all 0.3s; transform-origin:center; }
+    .hamburger.open span:nth-child(1) { transform:translateY(6.5px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity:0; transform:scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform:translateY(-6.5px) rotate(-45deg); }
+    #mobile-menu { display:none; position:fixed; inset:0; z-index:490; background:rgba(14,14,16,0.98); backdrop-filter:blur(24px); flex-direction:column; align-items:center; justify-content:center; gap:2.5rem; }
+    #mobile-menu.open { display:flex; }
+    #mobile-menu a { font-family:var(--font-head); font-size:2rem; font-weight:700; letter-spacing:-0.02em; color:var(--muted); text-decoration:none; transition:color 0.2s; }
+    #mobile-menu a:hover { color:var(--text); }
+    #mobile-menu .mob-cta { background:var(--accent); color:#1a1a1e !important; padding:0.75rem 2.5rem; border-radius:100px; font-size:1rem !important; box-shadow:0 0 24px var(--accent-glow); }
     @media (max-width: 768px) {
       #navbar { width: calc(100% - 2rem); }
       .nav-links { display: none; }
+      .hamburger { display: flex; }
     }
 
     /* ── PAGE WRAPPER ── */
@@ -266,6 +278,13 @@
 <!-- Starscape -->
 <canvas id="starscape"></canvas>
 
+<div id="mobile-menu">
+  <a href="index.html#features" onclick="closeMobileMenu()">Services</a>
+  <a href="index.html#vehicles" onclick="closeMobileMenu()">Vehicles</a>
+  <a href="shipped.html" onclick="closeMobileMenu()">Shipped</a>
+  <a href="about.html" onclick="closeMobileMenu()">About Us</a>
+  <a href="contact.html" class="mob-cta">Contact Us</a>
+</div>
 <!-- Navbar -->
 <nav id="navbar">
   <a class="nav-brand" href="index.html">
@@ -279,6 +298,9 @@
     <li><a href="about.html">About Us</a></li>
     <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
   </ul>
+  <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <!-- Page -->
@@ -429,6 +451,18 @@
     form.style.display = 'none';
     document.querySelector('.submit-btn').style.display = 'none';
     document.getElementById('successState').style.display = 'block';
+  }
+  function toggleMobileMenu() {
+    const menu = document.getElementById('mobile-menu');
+    const btn = document.getElementById('hamburger');
+    menu.classList.toggle('open');
+    btn.classList.toggle('open');
+    document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+  }
+  function closeMobileMenu() {
+    document.getElementById('mobile-menu').classList.remove('open');
+    document.getElementById('hamburger').classList.remove('open');
+    document.body.style.overflow = '';
   }
 </script>
 </body>
